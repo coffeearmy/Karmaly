@@ -24,11 +24,17 @@ public class Task {
     @DatabaseField(columnName = "num_not_done")
     private int mNumNotDone;
     
+    @DatabaseField(columnName = "daily")
+    private boolean mIsDaily;
+    
     @ForeignCollectionField
     private ForeignCollection<Event> Event;
    
     public Task() {
-		// TODO Auto-generated constructor stub
+		this.mValue=0;
+		this.mNumDone=0;
+		this.mNumNotDone=0;
+		this.mIsDaily=false;
 	}
     
     public void setmId(int mId) {
@@ -61,6 +67,13 @@ public class Task {
     public int getmNumNotDone() {
 		return mNumNotDone;
 	}
+    public void setmIsDaily(boolean mIsDaily) {
+		this.mIsDaily = mIsDaily;
+	}
+    public boolean ismIsDaily() {
+		return mIsDaily;
+	}
+    
     public void setEvent(ForeignCollection<Event> event) {
 		Event = event;
 	}

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.coffeearmy.model.Event;
+import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -18,7 +19,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application -- change to something appropriate for your app
-    private static final String DATABASE_NAME = "KarmalyDB.sqlite";
+    private static final String DATABASE_NAME = "KarmalyDBvdev02.sqlite";
 
     // any time you make changes to your database objects, you may have to increase the database version
     private static final int DATABASE_VERSION = 1;
@@ -26,6 +27,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the SimpleData table
     private Dao<Event, Integer> mEventDao = null;
     private Dao<Task, Integer> mTaskDao = null;
+	private Dao<Reward, Integer> mRewardDao=null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,6 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, Task.class);
             TableUtils.createTable(connectionSource, Event.class);
+            TableUtils.createTable(connectionSource, Reward.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -65,7 +68,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         
     }
 
-    public Dao<Task, Integer> getWishListDao() {
+    public Dao<Task, Integer> getTaskListDao() {
         if (null == mTaskDao) {
             try {
                 mTaskDao = getDao(Task.class);
@@ -76,7 +79,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return mTaskDao;
     }
 
-    public Dao<Event, Integer> getWishItemDao() {
+    public Dao<Event, Integer> getEventListDao() {
         if (null == mEventDao) {
             try {
                 mEventDao = getDao(Event.class);
@@ -86,5 +89,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return mEventDao;
     }
+    public Dao<Reward, Integer> getRewardListDao() {
+        if (null == mRewardDao) {
+            try {
+            	mRewardDao = getDao(Reward.class);
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return mRewardDao;
+    }
+
+	
 
 }

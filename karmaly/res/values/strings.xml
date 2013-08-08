@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Maven Quickstart</string>
+    <string name="app_name">Karmaly</string>
     <string name="hello">Hello karmaly!</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search</string>
+    <string name="action_compose">New Task</string>
+    <string name="action_compose_rewards">New Reward</string>
 
 </resources>
