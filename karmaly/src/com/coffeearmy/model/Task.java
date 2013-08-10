@@ -73,7 +73,12 @@ public class Task {
     public boolean ismIsDaily() {
 		return mIsDaily;
 	}
-    
+    public void updateDone(){
+    	this.mNumDone=this.mNumDone+1;
+    }
+    public void updateNotDone(){
+    	this.mNumNotDone=this.mNumNotDone+1;
+    }
     public void setEvent(ForeignCollection<Event> event) {
 		Event = event;
 	}

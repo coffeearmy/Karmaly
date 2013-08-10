@@ -1,6 +1,7 @@
 package com.coffeearmy.model;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -11,7 +12,7 @@ public class Event {
 	    private int mId;
 	    
 	    @DatabaseField(columnName = "timestamp")
-	    private Date mTimestamp;
+	    private java.util.Date mTimestamp;
 
 	    @DatabaseField(columnName = "is_done")
 	    private Boolean mIsDone;
@@ -21,6 +22,7 @@ public class Event {
 	    
 	    public Event() {
 			// TODO Auto-generated constructor stub
+	    	this.mTimestamp=Calendar.getInstance().getTime();
 		}
 
 		public int getmId() {
@@ -31,7 +33,7 @@ public class Event {
 			this.mId = mId;
 		}
 
-		public Date getmTimestamp() {
+		public java.util.Date getmTimestamp() {
 			return mTimestamp;
 		}
 

@@ -36,9 +36,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class KarmalyActivity extends FragmentActivity {
@@ -86,14 +88,14 @@ public class KarmalyActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_compose:
-//			 Intent intent = new Intent(this, TaskManager.class);
-//	            // intent.putExtra(Constants.keyWishListId, wishList.getId());
-//	             startActivity(intent);
+			mViewPager.setCurrentItem(0);			
 			TaskListFragment.showLayoutCompose();
+			RewardListFragment.hideLayoutCompose();
 			break;
 		case R.id.action_compose2:	
-			 Intent intentReward = new Intent(this, RewardManager.class);
-	         startActivity(intentReward);
+			mViewPager.setCurrentItem(1);
+			TaskListFragment.hideLayoutCompose();
+			RewardListFragment.showLayoutCompose();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -167,12 +169,13 @@ public class KarmalyActivity extends FragmentActivity {
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
-		private static final String TEXT_TASK = "text_task";
-		private static final String NOT_DONE = "not_done";
-		private static final String DONE = "done";
-		private static final String ID="_id";
+		public static final String TEXT_TASK = "text_task";
+		public static final String NOT_DONE = "not_done";
+		public static final String DONE = "done";
+		public static final String ID="_id";
 		private EditText editTask;
 		private Button btnSave;
+		private TaskListAdapter adapterCustom;
 		private static LinearLayout lytCompose;
 		
 		public TaskListFragment() {
@@ -232,13 +235,16 @@ public class KarmalyActivity extends FragmentActivity {
 			 Task t = new Task();
 		        t.setmText(taskDesc);
 		        DatabaseManager.getInstance().addTask(t);
-
+		        adapterCustom.notifyCursorChanged();
 		}
 		public static void hideLayoutCompose(){
-			lytCompose.setVisibility(View.GONE);
+			if(isLayoutVisible())lytCompose.setVisibility(View.GONE);
 		}
 		public static void showLayoutCompose(){
-			lytCompose.setVisibility(View.VISIBLE);
+			if(!isLayoutVisible())lytCompose.setVisibility(View.VISIBLE);
+		}
+		public static Boolean isLayoutVisible(){
+			return lytCompose.isShown();
 		}
 
 		@Override
@@ -254,9 +260,9 @@ public class KarmalyActivity extends FragmentActivity {
 		        List<String> titles = new ArrayList<String>();
 		        for (Task wl : taskLists) {
 		            titles.add(wl.getmText());
-		            cursor.addRow(new Object[] { wl.getmId(),wl.getmText(),wl.getmNumNotDone(),wl.getmNumNotDone()});
+		            cursor.addRow(new Object[] { wl.getmId(),wl.getmText(),wl.getmNumNotDone(),wl.getmNumDone()});
 		        }
-		        TaskListAdapter adapterCustom= new TaskListAdapter(this.getActivity().getApplicationContext(), cursor);	
+		         adapterCustom= new TaskListAdapter(this.getActivity().getApplicationContext(), cursor);	
 		       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, titles);
 		        lv.setAdapter(adapterCustom);
 
@@ -285,6 +291,11 @@ public class KarmalyActivity extends FragmentActivity {
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
+		private EditText editTask;
+		private Button btnSave;
+		private RatingBar rtbValue;
+		private CheckedTextView isSurprise;
+		private static LinearLayout lytCompose;
 
 		public RewardListFragment() {
 			//setEmptyText("NO REWARDS?! Create a nice reward!");
@@ -293,10 +304,57 @@ public class KarmalyActivity extends FragmentActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.list_view_tasks,
+			View rootView = inflater.inflate(R.layout.list_view_reward,
 					container, false);
-			
+			editTask=(EditText)rootView.findViewById(R.id.etxCompReward);
+			btnSave=(Button)rootView.findViewById(R.id.btnCompSaveReward);
+			lytCompose=(LinearLayout) rootView.findViewById(R.id.lytRewardCompose);
+			rtbValue= (RatingBar) rootView.findViewById(R.id.rtbReward);
+			isSurprise= (CheckedTextView) rootView.findViewById(R.id.cktSurprise);
+			initButton(btnSave);
 			return rootView;
+		}
+		private void initButton(Button btnSave2) {
+			btnSave2.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					String taskDesc = editTask.getText().toString();
+					if (null != taskDesc && taskDesc.length() > 0) {
+						createReward(taskDesc);
+						hideLayoutCompose();
+					} else {
+						new AlertDialog.Builder(getActivity())
+								.setTitle("Error")
+								.setMessage("Write something!")
+								.setNegativeButton("OK",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
+												dialog.dismiss();
+											}
+										}).show();
+					}
+				}
+			}
+
+			);
+		}
+
+		protected void createReward(String taskDesc) {
+			 Reward r = new Reward();
+		        r.setmRewardText(taskDesc);
+		        DatabaseManager.getInstance().addReward(r);
+
+		}
+		
+		public static void hideLayoutCompose(){
+			if(isLayoutVisible())lytCompose.setVisibility(View.GONE);
+		}
+		public static void showLayoutCompose(){
+			if(!isLayoutVisible())lytCompose.setVisibility(View.VISIBLE);
+		}
+		public static Boolean isLayoutVisible(){
+			return lytCompose.isShown();
 		}
 		 @Override
 		public void onStart() {

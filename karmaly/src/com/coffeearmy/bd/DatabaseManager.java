@@ -2,6 +2,7 @@ package com.coffeearmy.bd;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.coffeearmy.model.Event;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 
@@ -57,10 +58,33 @@ public class DatabaseManager {
     		 e.printStackTrace();
     	}
     }
+    public void updatePoints(Boolean done,int t){
+    	try{
+    		List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",t).query();
+    		if(results.size()>0){
+    			///TODO add events here
+    			Task task = results.get(0);
+    			Event event = new Event();
+    			event.setList(task);
+    			if(done){
+    				event.setmIsDone(done);
+    				task.updateDone();
+    			}else{
+    				event.setmIsDone(done);
+    				task.updateNotDone();
+    			}
+    			addEvent(event);
+    			updateTask(task);
+    		}
+    	}catch(SQLException e){
+    		 e.printStackTrace();
+    	}
+    }
     public void deleteTask(int t){
     	try{
     		List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",t).query();
     		if(results.size()>0) getHelper().getTaskListDao().delete(results.get(0));
+    		///TODO All the events with task=task have to be delete as well.
     	}catch(SQLException e){
     		 e.printStackTrace();
     	}
@@ -80,6 +104,26 @@ public class DatabaseManager {
 	  public void addReward(Reward r) {
 			 try {
 		        	getHelper().getRewardListDao().create(r);
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+			
+		}
+	  /**
+	     * Events Operation, GetALL, ADD, Delete, Update 
+	     */
+	  public List<Event> getAllEvents() {
+	        List<Event> events = null;
+	        try {
+	        	events = getHelper().getEventListDao().queryForAll();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return events;
+	    }
+	  public void addEvent(Event ev) {
+			 try {
+		        	getHelper().getEventListDao().create(ev);
 		        } catch (SQLException e) {
 		            e.printStackTrace();
 		        }

@@ -7,5 +7,6 @@
     <string name="action_search">Search</string>
     <string name="action_compose">New Task</string>
     <string name="action_compose_rewards">New Reward</string>
+    <string name="menu_delete">Delete</string>
 
 </resources>

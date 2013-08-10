@@ -1,7 +1,15 @@
 package com.coffeearmy;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.coffeearmy.KarmalyActivity.TaskListFragment;
+import com.coffeearmy.bd.DatabaseManager;
+import com.coffeearmy.model.Task;
+
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +28,9 @@ public class TaskListAdapter extends CursorAdapter {
 	
 	protected static final String TAG = null;
 
-	protected ListView mListView;
+	
 	protected Context context;
+	private Cursor mCursor;
 
     protected static class ViewHolder {
         public TextView mNotDone;
@@ -30,10 +39,13 @@ public class TaskListAdapter extends CursorAdapter {
         public TextView id;
 		public LinearLayout mlytNotDone;
 		public LinearLayout mlytDone;
+		
     }
     public TaskListAdapter(Context context, Cursor c) {
   		super(context, c);
-  		this.context=context;  		
+  		this.context=context;  
+  		this.mCursor=c;
+  		
   	}	
 
 	@Override
@@ -63,19 +75,40 @@ public class TaskListAdapter extends CursorAdapter {
 
         return view;
     }
+	
+	
+	public void notifyCursorChanged() {
+		  this.notifyDataSetChanged();
+		  final List<Task> taskLists = DatabaseManager.getInstance().getAllTasks();
+	        String[] col = new String[] { TaskListFragment.ID, TaskListFragment.TEXT_TASK, TaskListFragment.NOT_DONE, TaskListFragment.DONE };
+			MatrixCursor cursor = new MatrixCursor(col);
+	        List<String> titles = new ArrayList<String>();
+	        for (Task wl : taskLists) {
+	            titles.add(wl.getmText());
+	            cursor.addRow(new Object[] { wl.getmId(),wl.getmText(),wl.getmNumNotDone(),wl.getmNumDone()});
+	        }
+	        this.changeCursor(cursor);
+		
+	}
 
     private OnClickListener mOnNotDoneClickListener = new OnClickListener() {
-        public void onClick(View v) {
-        	mListView = (ListView) v.getParent().getParent(); 
-            final int position = mListView.getPositionForView((View) v.getParent());
-            Log.v(TAG, "Title clicked, row %d");
+        
+
+		public void onClick(View v) {
+        	 
+           int taskId =Integer.parseInt(((ViewHolder)((View) v.getParent()).getTag()).id.getText().toString());
+           DatabaseManager.getInstance().updatePoints(false, taskId);
+           notifyCursorChanged();
         }
     };
 
     private OnClickListener mOnDoneClickListener = new OnClickListener() {
         public void onClick(View v) {
-            final int position = mListView.getPositionForView((View) v.getParent());
-            Log.v(TAG, "Text clicked, row %d");
+        	int taskId =Integer.parseInt(((ViewHolder)((View) v.getParent()).getTag()).id.getText().toString());
+        	 DatabaseManager.getInstance().updatePoints(true, taskId);
+        	 notifyCursorChanged();
+             
+             Log.v("msg", "OK");
         }
     
 	};
