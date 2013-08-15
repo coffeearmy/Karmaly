@@ -257,9 +257,9 @@ public class KarmalyActivity extends FragmentActivity {
 		        final List<Task> taskLists = DatabaseManager.getInstance().getAllTasks();
 		        String[] col = new String[] { ID, TEXT_TASK, NOT_DONE, DONE };
 				MatrixCursor cursor = new MatrixCursor(col);
-		        List<String> titles = new ArrayList<String>();
+		        
 		        for (Task wl : taskLists) {
-		            titles.add(wl.getmText());
+		            
 		            cursor.addRow(new Object[] { wl.getmId(),wl.getmText(),wl.getmNumNotDone(),wl.getmNumDone()});
 		        }
 		         adapterCustom= new TaskListAdapter(this.getActivity().getApplicationContext(), cursor);	

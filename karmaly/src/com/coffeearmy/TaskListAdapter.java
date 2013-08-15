@@ -26,7 +26,7 @@ public class TaskListAdapter extends CursorAdapter {
 	public static final int DONE_INDEX=3;
 	public static final int ID_INDEX=0;
 	
-	protected static final String TAG = null;
+	protected static final String TAG = "TListAdapter";
 
 	
 	protected Context context;

@@ -111,11 +111,17 @@ public class DatabaseManager {
 		}
 	  /**
 	     * Events Operation, GetALL, ADD, Delete, Update 
+	 * @param mID 
 	     */
-	  public List<Event> getAllEvents() {
+	  public List<Event> getAllEvents(Integer mID) {
 	        List<Event> events = null;
 	        try {
-	        	events = getHelper().getEventListDao().queryForAll();
+	        	List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",mID).query();
+	        	if(results.size()>0){
+	    			
+	    			Task task = results.get(0);
+	    			events = getHelper().getEventListDao().queryBuilder().where().eq("list_id",mID).query();
+	        	}
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
