@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutStructure"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/Dark_Bg_bg_lv"
+    android:paddingBottom="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp" >
+
+    <LinearLayout
+        android:id="@+id/borderdesign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Bg_bg_lv"
+        android:padding="3dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Light_bg_lv"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtRewardsList"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="10dp"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall" 
+                 android:textColor="@android:color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/Bg_bg_lv"                
+                android:orientation="vertical" >
+
+                <RatingBar
+                    android:id="@+id/rtbRewardsList"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:isIndicator="true"
+                    android:max="5"
+                    android:numStars="5" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

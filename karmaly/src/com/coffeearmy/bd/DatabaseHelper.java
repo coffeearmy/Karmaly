@@ -11,6 +11,7 @@ import android.util.Log;
 import com.coffeearmy.model.Event;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
+import com.coffeearmy.model.User;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -19,7 +20,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application -- change to something appropriate for your app
-    private static final String DATABASE_NAME = "KarmalyDBvdev02.sqlite";
+    private static final String DATABASE_NAME = "KarmalyDBvdev03.sqlite";
 
     // any time you make changes to your database objects, you may have to increase the database version
     private static final int DATABASE_VERSION = 1;
@@ -28,7 +29,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Event, Integer> mEventDao = null;
     private Dao<Task, Integer> mTaskDao = null;
 	private Dao<Reward, Integer> mRewardDao=null;
-
+	private Dao<User, Integer> mUserDao=null;
+	
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -39,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Task.class);
             TableUtils.createTable(connectionSource, Event.class);
             TableUtils.createTable(connectionSource, Reward.class);
+            TableUtils.createTable(connectionSource, User.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -98,6 +101,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return mRewardDao;
+    }
+    
+    public Dao<User, Integer> getUserDao() {
+        if (null == mUserDao) {
+            try {
+            	mUserDao = getDao(User.class);
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return mUserDao;
     }
 
 	

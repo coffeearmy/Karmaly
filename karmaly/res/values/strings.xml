@@ -8,5 +8,20 @@
     <string name="action_compose">New Task</string>
     <string name="action_compose_rewards">New Reward</string>
     <string name="menu_delete">Delete</string>
-
+    <string name="tabs_task">Tasks</string>
+    <string name="tabs_rewards">Rewards</string>
+    <string name="congratulations">Congratulations!</string>
+	<string name="reward">You earn this reward</string>
+	<string name="hiddenreward">You earn this HIDDEN reward!!</string>
+	<string name="dataoptions">Data management</string>
+	<string name="delete_tasks_pref">Delete all tasks</string>
+	<string name="delete_rewards_pref">Delete all rewards</string>
+	<string name="about_us_pref">About us</string>
+	<string name="details_pref">Details</string>
+	<string name="instructions_pref">Instructions</string>
+	<string name="delete_user_pref">Delete User data</string>
+	<string name="delete_explain_pref">Delete all the tasks</string>
+	<string name="delete_rewards_explain_pref">Delete all the rewards inclusive the hidden ones</string>
+	<string name="delete_user_explain_pref">The user data will be deteled and the tasks done or not done count set to 0</string>
+	<string name="help_explain_pref">"Do you need help with the app? "</string>
 </resources>

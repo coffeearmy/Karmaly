@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/dataoptions">
+        <Preference android:title="@string/delete_tasks_pref" android:summary="@string/delete_explain_pref"/>
+        <Preference android:title="@string/delete_rewards_pref" android:summary="@string/delete_rewards_explain_pref"/>
+        <Preference android:title="@string/delete_user_pref" android:summary="@string/delete_user_explain_pref"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/details_pref">
+        <Preference android:title="@string/instructions_pref" android:summary="@string/help_explain_pref"/><Preference android:title="@string/about_us_pref"/>
+        
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutStructure"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/Bg_bg_lv"
+    android:paddingBottom="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Light_bg_lv"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imgDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/smileyicon" />
+
+        <TextView
+            android:id="@+id/txtRewardsList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Agosto 16 2013 34:34:34"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+</LinearLayout>
