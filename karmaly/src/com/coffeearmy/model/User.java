@@ -31,7 +31,7 @@ public class User {
 
 	   	    
 	    public User() {
-			// TODO Auto-generated constructor stub
+		
 	    	this.mTimestamp=Calendar.getInstance().getTime();
 		}
 
@@ -108,6 +108,15 @@ public class User {
 		public void userPrint(){
 			Log.d("USER","DonePoints:"+this.mDonePoints+" NotDonePoints"+this.mNotDonePoints+" RewardPoints:"+this.mRewardPoints+" inrow:"+ this.minRow);
 		} 
+		
+		public void deleteUser(){
+			this.mDonePoints=0;
+			this.minRow=0;
+			this.mlvl=0;
+			this.mNotDonePoints=0;
+			this.mRewardPoints=0;
+			this.mTimestamp=null;
+		}
 	    
 	    
 }

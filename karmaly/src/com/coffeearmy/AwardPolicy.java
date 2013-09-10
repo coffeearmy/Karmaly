@@ -61,7 +61,7 @@ public class AwardPolicy {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -79,8 +79,8 @@ public class AwardPolicy {
 		if (u.getmDonePoints() > (u.getmNotDonePoints() * 1.33)) {
 			points = +1;
 		}
-		Long aux = u.getmTimestamp().getTime();
-		Date newDate = new Date(aux);
+		//Long aux = u.getmTimestamp().getTime();
+	//	Date newDate = new Date(aux);
 		// if() Compare date if was 1 day ago the last time +5 if its in the
 		// same hour no points will be given,
 		// I'ts time for a reward

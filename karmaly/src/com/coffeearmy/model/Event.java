@@ -21,7 +21,7 @@ public class Event {
 	    private Task list;
 	    
 	    public Event() {
-			// TODO Auto-generated constructor stub
+			
 	    	this.mTimestamp=Calendar.getInstance().getTime();
 		}
 

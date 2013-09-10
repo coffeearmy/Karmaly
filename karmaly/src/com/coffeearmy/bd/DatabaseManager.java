@@ -50,7 +50,7 @@ public class DatabaseManager {
     	try{
     		List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",mID).query();
     		if(results.size()>0){
-    			///TODO add events here
+    			
     			Task task = results.get(0);
     			return task;
     		}
@@ -78,7 +78,7 @@ public class DatabaseManager {
     	try{
     		List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",t).query();
     		if(results.size()>0){
-    			///TODO add events here
+    			
     			Task task = results.get(0);
     			Event event = new Event();
     			event.setmIsDone(done);
@@ -97,13 +97,25 @@ public class DatabaseManager {
     }
     public void deleteTask(int t){
     	try{
+    		//Delete first the events
+    		deleteEvents(t);
     		List<Task> results = getHelper().getTaskListDao().queryBuilder().where().eq("id",t).query();
     		if(results.size()>0) getHelper().getTaskListDao().delete(results.get(0));
-    		///TODO All the events with task=task have to be delete as well.
+    		
     	}catch(SQLException e){
     		 e.printStackTrace();
     	}
     }
+    
+    public void deleteAllTasks(){
+		  try{
+			  //Delete all events
+			  deleteAllEvents();
+			  getHelper().getTaskListDao().deleteBuilder().delete();	    		
+	    	}catch(SQLException e){
+	    		 e.printStackTrace();
+	    	}
+	  }
     /**
      * Reward Operation, GetALL, ADD, Delete, Update 
      */
@@ -147,11 +159,20 @@ public class DatabaseManager {
 	    	try{
 	    		List<Reward> results = getHelper().getRewardListDao().queryBuilder().where().eq("id",t).query();
 	    		if(results.size()>0) getHelper().getRewardListDao().delete(results.get(0));
-	    		///TODO All the events with task=task have to be delete as well.
+	    		
 	    	}catch(SQLException e){
 	    		 e.printStackTrace();
 	    	}
 	    }
+	  
+	  public void deleteAllRewards(){
+		  try{
+	    		getHelper().getRewardListDao().deleteBuilder().delete();
+	    		
+	    	}catch(SQLException e){
+	    		 e.printStackTrace();
+	    	}
+	  }
 	  /**
 	     * Events Operation, GetALL, ADD, Delete, Update 
 	 * @param mID 
@@ -173,6 +194,24 @@ public class DatabaseManager {
 	  public void addEvent(Event ev) {
 			 try {
 		        	getHelper().getEventListDao().create(ev);
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+			
+		}
+	  public void deleteEvents(int t) {
+			 try {
+				 ///TODO comprobar que exsite
+				 if(getHelper().getEventListDao().queryBuilder().where().eq("list_id",t).query().size()>0)
+		        	getHelper().getEventListDao().deleteBuilder().where().eq("list_id",t).query();
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+			
+		}
+	  public void deleteAllEvents() {
+			 try {
+		        	getHelper().getEventListDao().deleteBuilder().delete();
 		        } catch (SQLException e) {
 		            e.printStackTrace();
 		        }
@@ -215,6 +254,20 @@ public class DatabaseManager {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	  }
+	  
+	  public void deleteUser(){
+		  //Set user data a 0;
+		  User u = getUser();
+		  u.deleteUser();
+		  updateUser(u);
+		  //Set tasks done or not done a 0
+		  try {
+	         getHelper().getTaskListDao().updateBuilder().updateColumnValue("num_done", 0);
+	         getHelper().getTaskListDao().updateBuilder().updateColumnValue("num_not_done", 0);
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }		  
 	  }
 
 	

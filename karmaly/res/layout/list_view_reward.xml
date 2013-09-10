@@ -65,5 +65,10 @@
         android:textColor="#1C1C1C" >
 
     </ListView>
-
+	<ViewStub
+ 	    android:id="@android:id/empty"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="fill_parent"
+ 	    android:layout_gravity="center"
+ 	    android:layout="@layout/empty_list" />
 </LinearLayout>

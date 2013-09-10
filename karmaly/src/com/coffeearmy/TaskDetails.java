@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 
-@SuppressLint("NewApi")
+
 public class TaskDetails extends FragmentActivity {
 
 	
@@ -43,7 +43,7 @@ public class TaskDetails extends FragmentActivity {
 	private Integer mID;
 	private ListView mListView;
 
-	@SuppressLint("NewApi")
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class TaskDetails extends FragmentActivity {
 		 title.setTypeface(type);
 		 title.setTextSize(24);
 		 title.setTextColor(getResources().getColor(R.color.Tabs_color));
-		 getActionBar().setDisplayShowHomeEnabled(false);
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mID=getIntent().getIntExtra("taskdetailsid", 0);
 		TextView edtDone = (TextView) findViewById(R.id.txtDoneDetail);

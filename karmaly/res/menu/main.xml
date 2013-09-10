@@ -7,11 +7,16 @@
     <item android:id="@+id/action_compose2"
           android:icon="@android:drawable/ic_menu_add"
           android:title="@string/action_compose_rewards" android:showAsAction="collapseActionView"/>
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+    <item android:id="@+id/delete_tasks" android:title="Data management..." android:showAsAction="never">
+        <menu>
+            <item android:id="@+id/delete_all_tasks" android:title="Delete all tasks"/>
+            <item android:id="@+id/delete_rewards" android:title="Delete all rewards"/>
+            <item android:id="@+id/delete_user_data" android:title="Delete user data"/>
+        </menu>
+    </item>
+    
+    <item android:id="@+id/help" android:title="Help" android:titleCondensed="Help" android:showAsAction="never"></item>
+    <item android:id="@+id/about" android:titleCondensed="About" android:title="About us" android:showAsAction="never"></item>
     
 
 </menu>
