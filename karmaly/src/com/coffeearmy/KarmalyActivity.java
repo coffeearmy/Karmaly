@@ -42,9 +42,12 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -73,6 +76,10 @@ public class KarmalyActivity extends FragmentActivity {
 	 */
 	ViewPager mViewPager;
 
+	private  static Animation animTranslate;
+
+	private static Animation animDelete;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,7 +103,9 @@ public class KarmalyActivity extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		DatabaseManager.init(this);
-
+		//Set animations
+		animDelete = AnimationUtils.loadAnimation(this, R.animator.delete_anim);
+		animTranslate = AnimationUtils.loadAnimation(this, R.animator.translate_anim);
 	}
 
 	@Override
@@ -187,6 +196,7 @@ public class KarmalyActivity extends FragmentActivity {
 										int which) {
 									DatabaseManager.getInstance().deleteUser();
 									TaskListFragment.setUserInfo();
+									TaskListFragment.adapterCustom.notifyCursorChanged();
 									dialog.dismiss();
 								}
 							}).show();
@@ -278,11 +288,13 @@ public class KarmalyActivity extends FragmentActivity {
 		private Button btnSave;
 		private static TaskListAdapter adapterCustom;
 		private List<Task> taskLists;
+	
 		private static TextView txtNotDone;
 		private static TextView txtDone;
 		private static ProgressBar pgbReward;
 		private static LinearLayout lytCompose;
 		private static LinearLayout lytUser;
+		private static User u;
 
 		public TaskListFragment() {
 		}
@@ -354,7 +366,7 @@ public class KarmalyActivity extends FragmentActivity {
 		
 		//Initiate the user info
 		public static void setUserInfo() {
-			User u = DatabaseManager.getInstance().getUser();
+			 u = DatabaseManager.getInstance().getUser();
 			txtDone.setText(u.getmDonePoints() + "");
 			txtNotDone.setText(u.getmNotDonePoints() + "");
 			pgbReward.setProgress(u.getmRewardPoints());
@@ -392,12 +404,12 @@ public class KarmalyActivity extends FragmentActivity {
 					startActivity(intent);
 				}
 			});
+		
 
 			lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-
 				public boolean onItemLongClick(AdapterView<?> arg0,
 						final View v, int arg2, long arg3) {
-					
+					v.startAnimation(animDelete);
 					new AlertDialog.Builder(getActivity())
 							.setTitle(android.R.string.dialog_alert_title)
 							.setMessage(R.string.delete_task) 
@@ -416,6 +428,7 @@ public class KarmalyActivity extends FragmentActivity {
 												int which) {
 											deleteTask(((TaskListAdapter.ViewHolder) v
 													.getTag()).idCode);
+											v.startAnimation(animTranslate);
 											dialog.dismiss();
 										}
 									}).show();
@@ -569,6 +582,7 @@ public class KarmalyActivity extends FragmentActivity {
 
 				public boolean onItemLongClick(AdapterView<?> arg0,
 						final View v, int arg2, long arg3) {
+					v.startAnimation(animDelete);
 					new AlertDialog.Builder(getActivity())
 							.setTitle(android.R.string.dialog_alert_title)
 							.setMessage(R.string.delete_reward) 
@@ -587,6 +601,7 @@ public class KarmalyActivity extends FragmentActivity {
 												int which) {
 											deleteReward(((RewardsListAdapter.ViewHolder) v
 													.getTag()).id);
+											v.startAnimation(animTranslate);
 											dialog.dismiss();
 										}
 									}).show();

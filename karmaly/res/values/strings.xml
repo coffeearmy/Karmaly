@@ -24,8 +24,7 @@
 	<string name="delete_rewards_explain_pref">Delete all the rewards inclusive the hidden ones</string>
 	<string name="delete_user_explain_pref">The user data will be deteled and the tasks done or not done count set to 0</string>
 	<string name="help_explain_pref">"Do you need help with the app? "</string>
-	<string name="fisrt_empty_list">You don\'t have any items yet</string>
-	
+	<string name="fisrt_empty_list">You don\'t have any items yet</string>	
 	<string name="second_empty_list">Don\'t forget the rewards</string>
 	<string name="delete_task">You are going to delete this task! Are you sure?</string>
 	<string name="delete_reward">You are going to delete this reward! Are you sure?</string>
@@ -34,5 +33,6 @@
 	<string name="help_text">Write something!</string>
 	<string name="about_title">Write something!</string>
 	<string name="about_text">Write something!</string>
+	<string name="empty_detail">No data</string>
 	
 </resources>

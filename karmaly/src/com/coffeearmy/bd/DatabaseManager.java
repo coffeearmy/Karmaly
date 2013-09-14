@@ -6,6 +6,7 @@ import com.coffeearmy.model.Event;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 import com.coffeearmy.model.User;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import android.content.Context;
 
@@ -25,6 +26,7 @@ public class DatabaseManager {
     }
 
     private DatabaseHelper helper;
+	private User user;
     private DatabaseManager(Context ctx) {
         helper = new DatabaseHelper(ctx);
     }
@@ -116,6 +118,24 @@ public class DatabaseManager {
 	    		 e.printStackTrace();
 	    	}
 	  }
+    public void resetTasks(){
+    	 //Set tasks done or not done a 0
+		  try {
+			UpdateBuilder<Task, Integer> updateBuilder = getHelper().getTaskListDao().updateBuilder();
+			// set the criteria like you would a QueryBuilder
+			// No- criteria// save for future reference: updateBuilder.where().eq("categoryId", 5);
+			// update the value of your field(s)
+			updateBuilder.updateColumnValue("num_done", 0);
+			updateBuilder.update();
+			updateBuilder.updateColumnValue("num_not_done", 0);
+			updateBuilder.update();
+			//delete the events
+			deleteAllEvents();
+	        
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }		  
+    }
     /**
      * Reward Operation, GetALL, ADD, Delete, Update 
      */
@@ -222,12 +242,12 @@ public class DatabaseManager {
 	   * User class operation
 	   */
 	  public User getUser() {
+		  if(user==null){
 	        List<User> users = null;
 	        try {
 	        	users = getHelper().getUserDao().queryForAll();
 	        	if(users.size()>0){
-	    			
-	    			User user = users.get(0);
+	    			 user = users.get(0);
 	    			return user;
 	        	}else{
 	        		User u = new User();
@@ -237,7 +257,10 @@ public class DatabaseManager {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	        return null;
+		  }else{
+	        return user;
+		  }
+		return null;
 	    }
 	  
 	  public void addUser(User u){
@@ -251,6 +274,7 @@ public class DatabaseManager {
 	  public void updateUser(User u){
 		  try {
 	        	getHelper().getUserDao().update(u);
+	        	getHelper().getUserDao().refresh(u);
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -262,12 +286,7 @@ public class DatabaseManager {
 		  u.deleteUser();
 		  updateUser(u);
 		  //Set tasks done or not done a 0
-		  try {
-	         getHelper().getTaskListDao().updateBuilder().updateColumnValue("num_done", 0);
-	         getHelper().getTaskListDao().updateBuilder().updateColumnValue("num_not_done", 0);
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }		  
+		  resetTasks();	  
 	  }
 
 	

@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -67,6 +68,7 @@ public class TaskDetails extends FragmentActivity {
 			edtNoDone.setText(task.getmNumNotDone()+"");
 		}
 		mListView = (ListView) findViewById(R.id.ltvEvents);
+		mListView.setEmptyView((ViewStub) findViewById(android.R.id.empty));
 		setupListView(mListView); 
 		
 	}

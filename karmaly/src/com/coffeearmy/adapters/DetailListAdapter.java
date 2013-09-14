@@ -1,5 +1,12 @@
 package com.coffeearmy.adapters;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import com.coffeearmy.R;
 import com.coffeearmy.R.drawable;
 import com.coffeearmy.R.id;
@@ -19,12 +26,16 @@ import android.widget.TextView;
 public class DetailListAdapter extends CursorAdapter {
 	public static final int DONE=1;
 	public static final int TIMESTAMP=2;
+	private static final String format = "yyyy-MM-dd HH:mm:ss.SSSZ ";
 	protected Context context;
 	private Drawable iconSad;
 	private Drawable iconHappy;
+	private DateFormat dateFormat;
 	public DetailListAdapter(Context context,  Cursor c) {
 		super(context, c);
 		this.context=context;
+		
+		dateFormat = DateFormat.getDateTimeInstance();
 	}
 	 protected static class ViewHolder {
 	        public TextView date;
@@ -41,7 +52,17 @@ public class DetailListAdapter extends CursorAdapter {
 				 if(iconHappy==null) iconHappy = context.getResources().getDrawable(R.drawable.smileyicon);
 				 holder.done.setImageDrawable(iconHappy);
 			 }
-	         holder.date.setText(cursor.getString(TIMESTAMP));
+			String date=   cursor.getString(TIMESTAMP);
+			/* Date dateAux = null;
+			try {
+				dateAux = dateFormat.parse( cursor.getString(TIMESTAMP));
+				date=dateAux.toString();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			
+	         holder.date.setText(date);
 	         
 		}
 
