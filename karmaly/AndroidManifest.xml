@@ -24,6 +24,7 @@
         <activity android:name="RewardManager"></activity>
         <activity android:name="TaskDetails"></activity>
         <activity android:name="PrefActivity"></activity>
+        <activity android:name="HelpWebview"></activity>
     </application>
 
 </manifest>

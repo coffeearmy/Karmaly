@@ -20,7 +20,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application -- change to something appropriate for your app
-    private static final String DATABASE_NAME = "KarmalyDBvdev03.sqlite";
+    private static final String DATABASE_NAME = "KarmalyDBvdev04.sqlite";
 
     // any time you make changes to your database objects, you may have to increase the database version
     private static final int DATABASE_VERSION = 1;

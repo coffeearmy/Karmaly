@@ -57,10 +57,11 @@
 
                 <ImageView
                     android:id="@+id/imgNotDone"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
-                    android:src="@drawable/sadicon" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_sadfacev_1" />
 
                 <TextView
                     android:id="@+id/txtNotDone"
@@ -98,10 +99,12 @@
 
                 <ImageView
                     android:id="@+id/imgDone"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:src="@drawable/smileyicon" />
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_happyfacev_2" />
+
             </LinearLayout>
 
         </LinearLayout>

@@ -103,7 +103,7 @@ public class AwardPolicy {
 		u.setmDonePoints(u.getmDonePoints() + 1);
 		u.setMinRow(u.getMinRow()+1);
 		givePoints();
-		u.userPrint();
+		//u.userPrint();
 		DatabaseManager.getInstance().updateUser(u);
 	}
 

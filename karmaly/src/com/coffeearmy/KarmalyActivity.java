@@ -53,6 +53,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -195,7 +196,7 @@ public class KarmalyActivity extends FragmentActivity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									DatabaseManager.getInstance().deleteUser();
-									TaskListFragment.setUserInfo();
+									TaskListFragment.setUserInfo(0);
 									TaskListFragment.adapterCustom.notifyCursorChanged();
 									dialog.dismiss();
 								}
@@ -203,18 +204,17 @@ public class KarmalyActivity extends FragmentActivity {
 			break;
 		// Help option
 		case R.id.help:
-			new AlertDialog.Builder(this)
-			.setTitle(R.string.help_title) 
-			.setMessage(R.string.help_text)
-			.show();
+			
+			startActivity(new Intent(this, HelpWebview.class));
+			
 			break;
 		// About
-		case R.id.about:
+		/*case R.id.about:
 			new AlertDialog.Builder(this)
 			.setTitle(R.string.about_title) 
 			.setMessage(R.string.about_text)
 			.show();
-			break;
+			break;*/
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -288,6 +288,7 @@ public class KarmalyActivity extends FragmentActivity {
 		private Button btnSave;
 		private static TaskListAdapter adapterCustom;
 		private List<Task> taskLists;
+		private static Animation animIn;
 	
 		private static TextView txtNotDone;
 		private static TextView txtDone;
@@ -311,7 +312,8 @@ public class KarmalyActivity extends FragmentActivity {
 			txtNotDone = (TextView) rootView.findViewById(R.id.txtNotDoneTask);
 			txtDone = (TextView) rootView.findViewById(R.id.txtDoneTask);
 			pgbReward = (ProgressBar) rootView.findViewById(R.id.pgbTask);
-			
+			animIn = AnimationUtils.loadAnimation(getActivity(),
+				    android.R.anim.fade_in);
 			return rootView;
 		}
 		
@@ -322,7 +324,7 @@ public class KarmalyActivity extends FragmentActivity {
 			super.onStart();
 			initButton(btnSave);
 			initEditTask(editTask);
-			setUserInfo();
+			setUserInfo(0);
 			setupListView(getListView());
 		}
 
@@ -365,11 +367,18 @@ public class KarmalyActivity extends FragmentActivity {
 		}
 		
 		//Initiate the user info
-		public static void setUserInfo() {
+		public static void setUserInfo(int side) {
 			 u = DatabaseManager.getInstance().getUser();
 			txtDone.setText(u.getmDonePoints() + "");
 			txtNotDone.setText(u.getmNotDonePoints() + "");
 			pgbReward.setProgress(u.getmRewardPoints());
+			if(side ==1){// play the animation on txtDone
+				txtDone.startAnimation(animIn);
+			}else{
+				if(side==2){ //play animation on txtnotDone
+					txtNotDone.startAnimation(animIn);
+				}
+			}
 
 		}
 		
@@ -514,6 +523,7 @@ public class KarmalyActivity extends FragmentActivity {
 		private static RewardsListAdapter adapterCustom;
 		private static List<Reward> rewardLists;
 		private static LinearLayout lytCompose;
+		private ImageView imgInfo;
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -526,6 +536,7 @@ public class KarmalyActivity extends FragmentActivity {
 					.findViewById(R.id.lytRewardCompose);
 			rtbValue = (RatingBar) rootView.findViewById(R.id.rtbReward);
 			isSurprise = (CheckBox) rootView.findViewById(R.id.chbIsHidden);
+			imgInfo=(ImageView) rootView.findViewById(R.id.imgInfo);
 			initButton(btnSave);
 			return rootView;
 		}
@@ -537,6 +548,14 @@ public class KarmalyActivity extends FragmentActivity {
 		}
 		
 		private void initButton(Button btnSave2) {
+			imgInfo.setOnClickListener(new OnClickListener() {				
+				public void onClick(View v) {
+					new AlertDialog.Builder(getActivity())
+					.setTitle(R.string.info_title)
+					.setMessage(R.string.info_text).show(); 
+					
+				}
+			});
 			btnSave2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					String taskDesc = editTask.getText().toString();

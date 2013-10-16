@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginLeft="4dp"
-            android:src="@drawable/smileyicon" />
+            android:src="@drawable/ic__greenface" />
 
         <TextView
             android:id="@+id/txtRewardsList"

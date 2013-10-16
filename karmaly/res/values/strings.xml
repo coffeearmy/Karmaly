@@ -25,14 +25,17 @@
 	<string name="delete_user_explain_pref">The user data will be deteled and the tasks done or not done count set to 0</string>
 	<string name="help_explain_pref">"Do you need help with the app? "</string>
 	<string name="fisrt_empty_list">You don\'t have any items yet</string>	
-	<string name="second_empty_list">Don\'t forget the rewards</string>
+	<string name="second_empty_list">""</string>
 	<string name="delete_task">You are going to delete this task! Are you sure?</string>
 	<string name="delete_reward">You are going to delete this reward! Are you sure?</string>
 	<string name="new_task_error">Write something!</string>
-	<string name="help_title">Write something!</string>
-	<string name="help_text">Write something!</string>
+	<string name="help_title">Instructions</string>
+		<string name="help_text">Karmaly es una app que te ayuda a mejorar tu rutina. Decide que tareas quieres controlar, anotando las veces que la realizas o no las consigues. Karmaly permite crear recompensas que iras ganando cada vez que llegues a una cierta cantidad de tareas realizadas.\n Mi barra de recompensa no sube\n En Karmaly ganaras puntos de recompensa cada vez que realices una tarea. Pero no subirá si la puntación negativa es mayor o igual que la positiva en una tarea.</string>
+
 	<string name="about_title">Write something!</string>
 	<string name="about_text">Write something!</string>
 	<string name="empty_detail">No data</string>
+	<string name="info_title">Info</string>
+	<string name="info_text">Use the secret option to hide the reward text. \nLet somebody write the reward and surprise youself when you earn it. </string>
 	
 </resources>

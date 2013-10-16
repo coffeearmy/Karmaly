@@ -16,7 +16,6 @@
     </item>
     
     <item android:id="@+id/help" android:title="Help" android:titleCondensed="Help" android:showAsAction="never"></item>
-    <item android:id="@+id/about" android:titleCondensed="About" android:title="About us" android:showAsAction="never"></item>
     
 
 </menu>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Karmaly</string>
+    <string name="hello">Hello karmaly!</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_search">Búsqueda</string>
+    <string name="action_compose">Nueva tarea</string>
+    <string name="action_compose_rewards">Nueva recompensa</string>
+    <string name="menu_delete">Eliminar</string>
+    <string name="tabs_task">Tareas</string>
+    <string name="tabs_rewards">Recompensas</string>
+    <string name="congratulations">Felicidades!</string>
+	<string name="reward">Has ganado esta recompensa!</string>
+	<string name="hiddenreward">Has ganado esta recompensa SECRETA!!</string>
+	<string name="dataoptions">Gestión de datos</string>
+	<string name="delete_tasks_pref">Elimina todas las tareas</string>
+	<string name="delete_rewards_pref">Elimina todas las recompensas</string>
+	<string name="about_us_pref">Sobre nosotros</string>
+	<string name="details_pref">Detalles</string>
+	<string name="instructions_pref">Instrucciones</string>
+	<string name="delete_user_pref">Eliminar datos de usuarios</string>
+	<string name="delete_explain_pref">Elimina todas las tareas</string>
+	<string name="delete_rewards_explain_pref">Elimina todas las recompensas, incluso las ocultas</string>
+	<string name="delete_user_explain_pref">Los datos de usuario serán borrados y poniendo todos los contadores de las tareas a 0</string>
+	<string name="help_explain_pref">"¿Necesitas ayuda para utilizar la aplicacion?"</string>
+	<string name="fisrt_empty_list">La lista no tiene elementos</string>	
+	<string name="second_empty_list">""</string>
+	<string name="delete_task">Vas a eliminar esta tarea! ¿Estas seguro?</string>
+	<string name="delete_reward">Vas a eliminar esta recompensa! ¿Estas seguro?</string>
+	<string name="new_task_error">Write something!</string>
+	<string name="help_title">Instrucciones</string>
+	<string name="help_text">Karmaly es una app que te ayuda a mejorar tu rutina. Decide que tareas quieres controlar, anotando las veces que la realizas o no las consigues. Karmaly permite crear recompensas que iras ganando cada vez que llegues a una cierta cantidad de tareas realizadas.\n Mi barra de recompensa no sube\n En Karmaly ganaras puntos de recompensa cada vez que realices una tarea. Pero no subirá si la puntación negativa es mayor o igual que la positiva en una tarea.</string>
+	<string name="about_title">Karmaly </string>
+	<string name="about_text">Write something!</string>
+	<string name="empty_detail">No data</string>
+	<string name="info_title">Info</string>
+	<string name="info_text">Use the secret option to hide the reward text. \nLet somebody write the reward and surprise you when you earn it. </string>
+	
+</resources>

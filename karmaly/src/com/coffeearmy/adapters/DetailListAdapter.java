@@ -26,7 +26,7 @@ import android.widget.TextView;
 public class DetailListAdapter extends CursorAdapter {
 	public static final int DONE=1;
 	public static final int TIMESTAMP=2;
-	private static final String format = "yyyy-MM-dd HH:mm:ss.SSSZ ";
+	
 	protected Context context;
 	private Drawable iconSad;
 	private Drawable iconHappy;
@@ -46,25 +46,16 @@ public class DetailListAdapter extends CursorAdapter {
 			 ViewHolder holder  =   (ViewHolder)    arg0.getTag();
 			 //By default the icon has the happy face
 			 if(cursor.getString(DONE)=="false"){
-				 if(iconSad==null) iconSad = context.getResources().getDrawable(R.drawable.sadicon);
+				 if(iconSad==null) iconSad = context.getResources().getDrawable(R.drawable.ic__redface);
 				 holder.done.setImageDrawable(iconSad);
 			 }else{
-				 if(iconHappy==null) iconHappy = context.getResources().getDrawable(R.drawable.smileyicon);
+				 if(iconHappy==null) iconHappy = context.getResources().getDrawable(R.drawable.ic__greenface);
 				 holder.done.setImageDrawable(iconHappy);
 			 }
-			String date=   cursor.getString(TIMESTAMP);
-			/* Date dateAux = null;
-			try {
-				dateAux = dateFormat.parse( cursor.getString(TIMESTAMP));
-				date=dateAux.toString();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 			
-	         holder.date.setText(date);
-	         
-		}
+				holder.date.setText(cursor.getString(TIMESTAMP));
+			
+	  	}
 
 		@Override
 		public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/retina_wood"
+    android:background="@drawable/app_background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -27,10 +27,11 @@
 
                 <ImageView
                     android:id="@+id/imgNotDone"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
-                    android:src="@drawable/sadicon" />
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic__redface" />
 
                 <TextView
                     android:id="@+id/txtNotDoneDetail"
@@ -69,10 +70,12 @@
 
                 <ImageView
                     android:id="@+id/imgDone"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/smileyicon" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic__greenface" />
+
             </LinearLayout>
         </LinearLayout>
 

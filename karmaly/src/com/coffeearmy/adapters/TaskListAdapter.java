@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.coffeearmy.AwardPolicy;
+import com.coffeearmy.KarmalyActivity;
 import com.coffeearmy.R;
 import com.coffeearmy.KarmalyActivity.RewardListFragment;
 import com.coffeearmy.KarmalyActivity.TaskListFragment;
@@ -26,6 +27,8 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -43,6 +46,7 @@ public class TaskListAdapter extends CursorAdapter {
 
 	protected Context context;
 	private AwardPolicy awardPolicy;
+	private Animation animIn;
 	
 
 	public static class ViewHolder {
@@ -62,6 +66,8 @@ public class TaskListAdapter extends CursorAdapter {
 		this.context = context;
 		this.mCursor = c;
 		this.awardPolicy= new AwardPolicy(fragmentActivity);
+		animIn = AnimationUtils.loadAnimation(context,
+			    R.animator.rotate_anim);
 	}
 
 	@Override
@@ -117,10 +123,11 @@ public class TaskListAdapter extends CursorAdapter {
 
 			int taskId = ((ViewHolder) ((View) v.getParent().getParent()
 					.getParent()).getTag()).idCode;
+			v.findViewById(R.id.imgNotDone).startAnimation(animIn);
 			DatabaseManager.getInstance().updatePoints(false, taskId);
 			notifyCursorChanged();
 			awardPolicy.giveOneNotDonePoint();
-			TaskListFragment.setUserInfo();
+			TaskListFragment.setUserInfo(2);
 		}
 	};
 
@@ -129,10 +136,11 @@ public class TaskListAdapter extends CursorAdapter {
 
 			int taskId = ((ViewHolder) ((View) v.getParent().getParent()
 					.getParent()).getTag()).idCode;
+			v.findViewById(R.id.imgDone).startAnimation(animIn);
 			DatabaseManager.getInstance().updatePoints(true, taskId);
 			notifyCursorChanged();
 			awardPolicy.giveOneDonePoint();
-			TaskListFragment.setUserInfo();
+			TaskListFragment.setUserInfo(1);
 
 		}
 

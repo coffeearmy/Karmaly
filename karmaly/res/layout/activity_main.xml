@@ -3,7 +3,7 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/retina_wood"
+    android:background="@drawable/app_background"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"

@@ -51,7 +51,7 @@ public class RewardsListAdapter extends CursorAdapter {
 		 if(cursor.getString(IS_HIDDEN)=="false"){
          holder.txtRewards.setText(cursor.getString(TXT_REWARD_LIST));    
 		 }else{
-			 holder.txtRewards.setText("******");
+			 holder.txtRewards.setText("**********");
 		 }
          holder.rtgRewards.setRating(cursor.getInt(RATING));
         holder.id=cursor.getInt(ID_INDEX);
