@@ -3,13 +3,13 @@ package com.coffeearmy.adapters;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coffeearmy.R;
-import com.coffeearmy.KarmalyActivity.RewardListFragment;
-import com.coffeearmy.KarmalyActivity.TaskListFragment;
-import com.coffeearmy.R.id;
-import com.coffeearmy.R.layout;
 import com.coffeearmy.adapters.TaskListAdapter.ViewHolder;
 import com.coffeearmy.bd.DatabaseManager;
+import com.coffeearmy.karmaly.R;
+import com.coffeearmy.karmaly.KarmalyActivity.RewardListFragment;
+import com.coffeearmy.karmaly.KarmalyActivity.TaskListFragment;
+import com.coffeearmy.karmaly.R.id;
+import com.coffeearmy.karmaly.R.layout;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 

@@ -36,6 +36,11 @@
 	<string name="about_text">Write something!</string>
 	<string name="empty_detail">No data</string>
 	<string name="info_title">Info</string>
-	<string name="info_text">Use the secret option to hide the reward text. \nLet somebody write the reward and surprise youself when you earn it. </string>
+	<string name="info_text">Use the secret option to hide the reward text. \nLet somebody write the reward and surprise yourself when you earn it. </string>
+	<string name="delete_task_preference_title">Delete all tasks</string>
+	<string name="delete_rewards_pref_title">Delete all rewards</string>
+	<string name="delete_user_pref_title">Delete user data</string>
+	<string name="surprise_cb">Surprise?</string>
+	<string name="help_pref_title">Help</string>
 	
 </resources>

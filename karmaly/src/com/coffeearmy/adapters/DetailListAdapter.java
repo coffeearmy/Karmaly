@@ -7,10 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.coffeearmy.R;
-import com.coffeearmy.R.drawable;
-import com.coffeearmy.R.id;
-import com.coffeearmy.R.layout;
+import com.coffeearmy.karmaly.R;
+import com.coffeearmy.karmaly.R.drawable;
+import com.coffeearmy.karmaly.R.id;
+import com.coffeearmy.karmaly.R.layout;
 
 import android.content.Context;
 import android.database.Cursor;

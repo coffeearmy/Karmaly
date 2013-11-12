@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Surprise?" />
+                    android:text="@string/surprise_cb" />
 
                 <ImageView
                     android:id="@+id/imgInfo"

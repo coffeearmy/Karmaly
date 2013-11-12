@@ -1,4 +1,4 @@
-package com.coffeearmy;
+package com.coffeearmy.karmaly;
 
 import java.util.Date;
 import java.util.List;
@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.coffeearmy.KarmalyActivity.RewardListFragment;
 import com.coffeearmy.bd.DatabaseManager;
+import com.coffeearmy.karmaly.KarmalyActivity.RewardListFragment;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.User;
 

@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:max="10"
-            android:minHeight="5dp"
+            android:minHeight="8dp"
             android:progress="6"
             android:progressDrawable="@drawable/custom_progress" />
 

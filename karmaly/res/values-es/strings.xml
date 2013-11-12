@@ -13,16 +13,16 @@
     <string name="congratulations">Felicidades!</string>
 	<string name="reward">Has ganado esta recompensa!</string>
 	<string name="hiddenreward">Has ganado esta recompensa SECRETA!!</string>
-	<string name="dataoptions">Gestión de datos</string>
-	<string name="delete_tasks_pref">Elimina todas las tareas</string>
-	<string name="delete_rewards_pref">Elimina todas las recompensas</string>
+	<string name="dataoptions">&quot;Gestión de datos&quot;</string>
+	<string name="delete_tasks_pref">Eliminar todas las tareas</string>
+	<string name="delete_rewards_pref">Eliminar todas las recompensas</string>
 	<string name="about_us_pref">Sobre nosotros</string>
 	<string name="details_pref">Detalles</string>
 	<string name="instructions_pref">Instrucciones</string>
 	<string name="delete_user_pref">Eliminar datos de usuarios</string>
-	<string name="delete_explain_pref">Elimina todas las tareas</string>
+	<string name="delete_explain_pref">Eliminar todas las tareas</string>
 	<string name="delete_rewards_explain_pref">Elimina todas las recompensas, incluso las ocultas</string>
-	<string name="delete_user_explain_pref">Los datos de usuario serán borrados y poniendo todos los contadores de las tareas a 0</string>
+	<string name="delete_user_explain_pref">Los datos de usuario ser\án borrados y poniendo todos los contadores de las tareas a 0</string>
 	<string name="help_explain_pref">"¿Necesitas ayuda para utilizar la aplicacion?"</string>
 	<string name="fisrt_empty_list">La lista no tiene elementos</string>	
 	<string name="second_empty_list">""</string>
@@ -35,6 +35,10 @@
 	<string name="about_text">Write something!</string>
 	<string name="empty_detail">No data</string>
 	<string name="info_title">Info</string>
-	<string name="info_text">Use the secret option to hide the reward text. \nLet somebody write the reward and surprise you when you earn it. </string>
-	
+	<string name="info_text">Utiliza el modo sorpresa para ocultar el texto. \nPide que te escriban las recompensas y sorprendete cuando las ganes. </string>
+		<string name="delete_task_preference_title">Elimina todas las tareas</string>
+	<string name="delete_rewards_pref_title">Elimina todas las recompensas</string>
+	<string name="delete_user_pref_title">Elimina datos de usuarios</string>
+	<string name="surprise_cb">¿Sorpresa?</string>
+	<string name="help_pref_title">Ayuda</string>
 </resources>

@@ -1,10 +1,11 @@
-package com.coffeearmy;
+package com.coffeearmy.karmaly;
 
 
 import java.util.List;
 import java.util.Locale;
 
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.coffeearmy.adapters.RewardsListAdapter;
 import com.coffeearmy.adapters.TaskListAdapter;
 import com.coffeearmy.bd.DatabaseManager;
@@ -60,7 +61,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class KarmalyActivity extends FragmentActivity {
+public class KarmalyActivity extends SherlockFragmentActivity {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -87,14 +88,16 @@ public class KarmalyActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		// Changing the title in the bar with the custom font.
+		if(android.os.Build.VERSION.SDK_INT>=11){	
 		final int titleId = Resources.getSystem().getIdentifier(
 				"action_bar_title", "id", "android");
+			
 		TextView title = (TextView) getWindow().findViewById(titleId);
 		Typeface type = Typeface.createFromAsset(getAssets(), "VampiroOne.ttf");
 		title.setTypeface(type);
 		title.setTextSize(26);
 		title.setTextColor(getResources().getColor(R.color.Tabs_color));
-
+		}
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -110,14 +113,14 @@ public class KarmalyActivity extends FragmentActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
 		switch (item.getItemId()) {
 		// Option: New Task
 		case R.id.action_compose:

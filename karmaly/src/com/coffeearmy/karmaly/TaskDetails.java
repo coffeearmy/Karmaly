@@ -1,4 +1,4 @@
-package com.coffeearmy;
+package com.coffeearmy.karmaly;
 
 
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.coffeearmy.adapters.DetailListAdapter;
 import com.coffeearmy.bd.DatabaseManager;
 import com.coffeearmy.model.Event;
@@ -35,7 +36,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 
-public class TaskDetails extends FragmentActivity {
+public class TaskDetails extends SherlockFragmentActivity {
 
 	
 	private static final String ID = "_id";
@@ -50,6 +51,7 @@ public class TaskDetails extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.task_detail_view);
 		//Changing the title in the bar with the custom font.
+		if(android.os.Build.VERSION.SDK_INT>=11){	
 		final int titleId = 
 			    Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
 		 TextView title = (TextView) getWindow().findViewById(titleId);
@@ -57,8 +59,9 @@ public class TaskDetails extends FragmentActivity {
 		 title.setTypeface(type);
 		 title.setTextSize(24);
 		 title.setTextColor(getResources().getColor(R.color.Tabs_color));
+		 getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mID=getIntent().getIntExtra("taskdetailsid", 0);
 		TextView edtDone = (TextView) findViewById(R.id.txtDoneDetail);
 		TextView edtNoDone= (TextView) findViewById(R.id.txtNotDoneDetail);
@@ -79,14 +82,14 @@ public class TaskDetails extends FragmentActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu  menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.task_detail_menu, menu);
+		getSupportMenuInflater().inflate(R.menu.task_detail_menu, menu);
 		return true;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem  item) {
 		switch (item.getItemId()) {
 		   case android.R.id.home:
 		      finish();
