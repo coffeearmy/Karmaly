@@ -17,103 +17,105 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-    // name of the database file for your application -- change to something appropriate for your app
-    private static final String DATABASE_NAME = "KarmalyDBvdev04.sqlite";
+	// name of the database file for your application -- change to something
+	// appropriate for your app
+	private static final String DATABASE_NAME = "KarmalyDBvdev05.sqlite";
 
-    // any time you make changes to your database objects, you may have to increase the database version
-    private static final int DATABASE_VERSION = 1;
+	// any time you make changes to your database objects, you may have to
+	// increase the database version
+	private static final int DATABASE_VERSION = 1;
 
-    // the DAO object we use to access the SimpleData table
-    private Dao<Event, Integer> mEventDao = null;
-    private Dao<Task, Integer> mTaskDao = null;
-	private Dao<Reward, Integer> mRewardDao=null;
-	private Dao<User, Integer> mUserDao=null;
-	
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+	// the DAO object we use to access the SimpleData table
+	private Dao<Event, Integer> mEventDao = null;
+	private Dao<Task, Integer> mTaskDao = null;
+	private Dao<Reward, Integer> mRewardDao = null;
+	private Dao<User, Integer> mUserDao = null;
 
-    @Override
-    public void onCreate(SQLiteDatabase database,ConnectionSource connectionSource) {
-        try {
-            TableUtils.createTable(connectionSource, Task.class);
-            TableUtils.createTable(connectionSource, Event.class);
-            TableUtils.createTable(connectionSource, Reward.class);
-            TableUtils.createTable(connectionSource, User.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
-            throw new RuntimeException(e);
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        
-    }
+	public DatabaseHelper(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db,ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            List<String> allSql = new ArrayList<String>(); 
-            switch(oldVersion) 
-            {
-              case 1: 
-                  //allSql.add("alter table AdData add column `new_col` VARCHAR");
-                  //allSql.add("alter table AdData add column `new_col2` VARCHAR");
-            }
-            for (String sql : allSql) {
-                db.execSQL(sql);
-            }
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "exception during onUpgrade", e);
-            throw new RuntimeException(e);
-        }
-        
-    }
+	@Override
+	public void onCreate(SQLiteDatabase database,
+			ConnectionSource connectionSource) {
+		try {
+			TableUtils.createTable(connectionSource, Task.class);
+			TableUtils.createTable(connectionSource, Event.class);
+			TableUtils.createTable(connectionSource, Reward.class);
+			TableUtils.createTable(connectionSource, User.class);
+		} catch (SQLException e) {
+			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
+			throw new RuntimeException(e);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
 
-    public Dao<Task, Integer> getTaskListDao() {
-        if (null == mTaskDao) {
-            try {
-                mTaskDao = getDao(Task.class);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return mTaskDao;
-    }
+	}
 
-    public Dao<Event, Integer> getEventListDao() {
-        if (null == mEventDao) {
-            try {
-                mEventDao = getDao(Event.class);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return mEventDao;
-    }
-    public Dao<Reward, Integer> getRewardListDao() {
-        if (null == mRewardDao) {
-            try {
-            	mRewardDao = getDao(Reward.class);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return mRewardDao;
-    }
-    
-    public Dao<User, Integer> getUserDao() {
-        if (null == mUserDao) {
-            try {
-            	mUserDao = getDao(User.class);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return mUserDao;
-    }
+	@Override
+	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource,
+			int oldVersion, int newVersion) {
+		try {
+			List<String> allSql = new ArrayList<String>();
+			switch (oldVersion) {
+			case 1:
+				// allSql.add("alter table AdData add column `new_col` VARCHAR");
+				// allSql.add("alter table AdData add column `new_col2` VARCHAR");
+			}
+			for (String sql : allSql) {
+				db.execSQL(sql);
+			}
+		} catch (SQLException e) {
+			Log.e(DatabaseHelper.class.getName(), "exception during onUpgrade",
+					e);
+			throw new RuntimeException(e);
+		}
 
-	
+	}
+
+	public Dao<Task, Integer> getTaskListDao() {
+		if (null == mTaskDao) {
+			try {
+				mTaskDao = getDao(Task.class);
+			} catch (java.sql.SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mTaskDao;
+	}
+
+	public Dao<Event, Integer> getEventListDao() {
+		if (null == mEventDao) {
+			try {
+				mEventDao = getDao(Event.class);
+			} catch (java.sql.SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mEventDao;
+	}
+
+	public Dao<Reward, Integer> getRewardListDao() {
+		if (null == mRewardDao) {
+			try {
+				mRewardDao = getDao(Reward.class);
+			} catch (java.sql.SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mRewardDao;
+	}
+
+	public Dao<User, Integer> getUserDao() {
+		if (null == mUserDao) {
+			try {
+				mUserDao = getDao(User.class);
+			} catch (java.sql.SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mUserDao;
+	}
 
 }

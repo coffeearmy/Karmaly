@@ -7,14 +7,15 @@ import java.util.Random;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.coffeearmy.bd.DatabaseManager;
-import com.coffeearmy.karmaly.KarmalyActivity.RewardListFragment;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.User;
 
@@ -26,14 +27,15 @@ public class AwardPolicy {
 
 	public AwardPolicy(FragmentActivity fragmentActivity) {
 		this.mfragment = fragmentActivity;
-		u= DatabaseManager.getInstance().getUser();
+		u = DatabaseManager.getInstance().getUser();
 		random = new Random();
 	}
 
 	public void getAward() {
 		try {
 			int num_in_row = u.getMinRow();
-			List<Reward> r = DatabaseManager.getInstance().getAllRewardsRated(true);
+			List<Reward> r = DatabaseManager.getInstance().getAllRewardsRated(
+					true);
 			int size = r.size();
 			int max = size - 1;
 			int min = 0;
@@ -61,7 +63,7 @@ public class AwardPolicy {
 				}
 			}
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -79,8 +81,8 @@ public class AwardPolicy {
 		if (u.getmDonePoints() > (u.getmNotDonePoints() * 1.33)) {
 			points = +1;
 		}
-		//Long aux = u.getmTimestamp().getTime();
-	//	Date newDate = new Date(aux);
+		// Long aux = u.getmTimestamp().getTime();
+		// Date newDate = new Date(aux);
 		// if() Compare date if was 1 day ago the last time +5 if its in the
 		// same hour no points will be given,
 		// I'ts time for a reward
@@ -88,54 +90,59 @@ public class AwardPolicy {
 													// levels
 			getAward();
 			u.setmRewardPoints((u.getmRewardPoints() + points) - 10);
-		
+
 		} else {
 			if (points > 0) {
 				u.setmRewardPoints(u.getmRewardPoints() + points);
-				
+
 			}
 		}
 
 	}
 
 	public void giveOneDonePoint() {
-		
+
 		u.setmDonePoints(u.getmDonePoints() + 1);
-		u.setMinRow(u.getMinRow()+1);
+		u.setMinRow(u.getMinRow() + 1);
 		givePoints();
-		//u.userPrint();
+		// u.userPrint();
 		DatabaseManager.getInstance().updateUser(u);
 	}
 
 	public void giveOneNotDonePoint() {
-	
+
 		u.setmNotDonePoints(u.getmNotDonePoints() + 1);
 		u.setMinRow(0);
-		
+
 		DatabaseManager.getInstance().updateUser(u);
 	}
 
 	public void showModalReward(Reward r) {
 		final Dialog dialog = new Dialog(mfragment);
+		// Hidden the title of the dialog, is already in the custom layout
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_reward);
 		TextView textSmall = (TextView) dialog.findViewById(R.id.txtDescDialog);
-		
+
 		if (r.ismIsHidden()) {
 			r.setmIsHidden(false);
 			DatabaseManager.getInstance().updateReward(r);
 			textSmall.setText(R.string.hiddenreward);
-			RewardListFragment.notifyCursorChanged();
+			RewardListFragment.notifyListChanged();
 		} else {
 			textSmall.setText(R.string.reward);
 		}
-		dialog.setTitle(R.string.congratulations);
+
 		// set the custom dialog components - text, image and button
 		TextView text = (TextView) dialog.findViewById(R.id.txtDialog);
-		RatingBar ratingBar= (RatingBar) dialog.findViewById(R.id.rtbDialog);
-		
+		RatingBar ratingBar = (RatingBar) dialog.findViewById(R.id.rtbDialog);
+
 		text.setText(r.getmRewardText());
 		ratingBar.setRating(r.getmValue());
 		Button dialogButton = (Button) dialog.findViewById(R.id.btnOkDialog);
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCancelable(true);
+
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

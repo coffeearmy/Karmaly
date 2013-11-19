@@ -1,18 +1,14 @@
 package com.coffeearmy.karmaly;
 
-
 import java.util.List;
 import java.util.Locale;
 
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.coffeearmy.adapters.RewardsListAdapter;
-import com.coffeearmy.adapters.TaskListAdapter;
+
 import com.coffeearmy.bd.DatabaseManager;
 import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 import com.coffeearmy.model.User;
-
 
 import android.app.AlertDialog;
 
@@ -30,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,9 +75,9 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 	 */
 	ViewPager mViewPager;
 
-	private  static Animation animTranslate;
-
-	private static Animation animDelete;
+	public static Animation animTranslate;
+	public static Animation animIn;
+	public static Animation animDelete;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +85,16 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		// Changing the title in the bar with the custom font.
-		if(android.os.Build.VERSION.SDK_INT>=11){	
-		final int titleId = Resources.getSystem().getIdentifier(
-				"action_bar_title", "id", "android");
-			
-		TextView title = (TextView) getWindow().findViewById(titleId);
-		Typeface type = Typeface.createFromAsset(getAssets(), "VampiroOne.ttf");
-		title.setTypeface(type);
-		title.setTextSize(26);
-		title.setTextColor(getResources().getColor(R.color.Tabs_color));
+		if (android.os.Build.VERSION.SDK_INT >= 11) {
+			final int titleId = Resources.getSystem().getIdentifier(
+					"action_bar_title", "id", "android");
+
+			TextView title = (TextView) getWindow().findViewById(titleId);
+			Typeface type = Typeface.createFromAsset(getAssets(),
+					"VampiroOne.ttf");
+			title.setTypeface(type);
+			title.setTextSize(26);
+			title.setTextColor(getResources().getColor(R.color.Tabs_color));
 		}
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -107,9 +105,11 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		DatabaseManager.init(this);
-		//Set animations
+		// Set animations
 		animDelete = AnimationUtils.loadAnimation(this, R.animator.delete_anim);
-		animTranslate = AnimationUtils.loadAnimation(this, R.animator.translate_anim);
+		animTranslate = AnimationUtils.loadAnimation(this,
+				R.animator.translate_anim);
+		animIn = AnimationUtils.loadAnimation(this, R.animator.rotate_anim);
 	}
 
 	@Override
@@ -120,7 +120,8 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
 		switch (item.getItemId()) {
 		// Option: New Task
 		case R.id.action_compose:
@@ -152,8 +153,7 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 										int which) {
 									DatabaseManager.getInstance()
 											.deleteAllTasks();
-									TaskListFragment.adapterCustom
-											.notifyCursorChanged();
+									TaskListFragment.notifyListChanged();
 									dialog.dismiss();
 								}
 							}).show();
@@ -176,8 +176,7 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 										int which) {
 									DatabaseManager.getInstance()
 											.deleteAllRewards();
-									RewardListFragment.adapterCustom
-											.notifyCursorChanged();
+									RewardListFragment.notifyListChanged();
 									dialog.dismiss();
 								}
 							}).show();
@@ -200,24 +199,24 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 										int which) {
 									DatabaseManager.getInstance().deleteUser();
 									TaskListFragment.setUserInfo(0);
-									TaskListFragment.adapterCustom.notifyCursorChanged();
+									TaskListFragment.getAdapterCustom()
+											.notifyListChanged();
 									dialog.dismiss();
 								}
 							}).show();
 			break;
 		// Help option
 		case R.id.help:
-			
+
 			startActivity(new Intent(this, HelpWebview.class));
-			
+
 			break;
 		// About
-		/*case R.id.about:
-			new AlertDialog.Builder(this)
-			.setTitle(R.string.about_title) 
-			.setMessage(R.string.about_text)
-			.show();
-			break;*/
+		/*
+		 * case R.id.about: new AlertDialog.Builder(this)
+		 * .setTitle(R.string.about_title) .setMessage(R.string.about_text)
+		 * .show(); break;
+		 */
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -236,22 +235,15 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
 
 			switch (position) {
 			case 0:
 				Fragment fragment = new TaskListFragment();
-				Bundle args = new Bundle();
-				args.putInt(TaskListFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
+
 				return fragment;
 			case 1:
 				Fragment fragment2 = new RewardListFragment();
-				Bundle args2 = new Bundle();
-				args2.putInt(TaskListFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment2.setArguments(args2);
+
 				return fragment2;
 			}
 			return null;
@@ -273,417 +265,6 @@ public class KarmalyActivity extends SherlockFragmentActivity {
 				return getString(R.string.tabs_rewards).toUpperCase(l);
 			}
 			return null;
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public static class TaskListFragment extends ListFragment{
-		// Cursor
-		public static final String ARG_SECTION_NUMBER = "section_number";
-		public static final String TEXT_TASK = "text_task";
-		public static final String NOT_DONE = "not_done";
-		public static final String DONE = "done";
-		public static final String ID = "_id";
-
-		private static EditText editTask;
-		private Button btnSave;
-		private static TaskListAdapter adapterCustom;
-		private List<Task> taskLists;
-		private static Animation animIn;
-	
-		private static TextView txtNotDone;
-		private static TextView txtDone;
-		private static ProgressBar pgbReward;
-		private static LinearLayout lytCompose;
-		private static LinearLayout lytUser;
-		private static User u;
-
-		public TaskListFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.list_view_tasks,
-					container, false);
-			editTask = (EditText) rootView.findViewById(R.id.etxComp);
-			btnSave = (Button) rootView.findViewById(R.id.btnCompSave);
-			lytCompose = (LinearLayout) rootView.findViewById(R.id.lytCompose);
-			lytUser = (LinearLayout) rootView.findViewById(R.id.lytUserData);
-			txtNotDone = (TextView) rootView.findViewById(R.id.txtNotDoneTask);
-			txtDone = (TextView) rootView.findViewById(R.id.txtDoneTask);
-			pgbReward = (ProgressBar) rootView.findViewById(R.id.pgbTask);
-			animIn = AnimationUtils.loadAnimation(getActivity(),
-				    android.R.anim.fade_in);
-			return rootView;
-		}
-		
-		
-		
-		@Override
-		public void onStart() {
-			super.onStart();
-			initButton(btnSave);
-			initEditTask(editTask);
-			setUserInfo(0);
-			setupListView(getListView());
-		}
-
-		//Initiate the edittext. When the edittext loose the focus must disapear.
-		private void initEditTask(EditText editTask2) {
-			editTask2.setOnFocusChangeListener(new OnFocusChangeListener() {
-				
-				public void onFocusChange(View v, boolean hasFocus) {
-					if(!hasFocus) hideLayoutCompose();
-				}
-			});
-		}
-
-		//Initiate the button from the create task form
-		private void initButton(Button btnSave2) {
-			btnSave2.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					String taskDesc = editTask.getText().toString();
-					if (null != taskDesc && taskDesc.length() > 0) {
-						createTask(taskDesc);
-						hideLayoutCompose();
-
-					} else {
-						new AlertDialog.Builder(getActivity())
-								.setTitle("Error")
-								.setMessage("Write something!")
-								.setNegativeButton("OK",
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												dialog.dismiss();
-											}
-										}).show();
-					}
-				}
-			}
-
-			);
-		}
-		
-		//Initiate the user info
-		public static void setUserInfo(int side) {
-			 u = DatabaseManager.getInstance().getUser();
-			txtDone.setText(u.getmDonePoints() + "");
-			txtNotDone.setText(u.getmNotDonePoints() + "");
-			pgbReward.setProgress(u.getmRewardPoints());
-			if(side ==1){// play the animation on txtDone
-				txtDone.startAnimation(animIn);
-			}else{
-				if(side==2){ //play animation on txtnotDone
-					txtNotDone.startAnimation(animIn);
-				}
-			}
-
-		}
-		
-		//Initiate the listview
-		private void setupListView(ListView lv) {
-			//Retrieve from the database the task.
-			//the bd result is an arraylist
-			taskLists = DatabaseManager.getInstance().getAllTasks();
-			String[] col = new String[] { ID, TEXT_TASK, NOT_DONE, DONE };
-			MatrixCursor cursor = new MatrixCursor(col);
-			//Pass the arraylist to a cursor for the custom adapter
-			for (Task wl : taskLists) {
-
-				cursor.addRow(new Object[] { wl.getmId(), wl.getmText(),
-						wl.getmNumNotDone(), wl.getmNumDone() });
-			}
-			adapterCustom = new TaskListAdapter(this.getActivity()
-					.getApplicationContext(), cursor, getActivity());
-			
-			lv.setAdapter(adapterCustom);
-			//Add the listener: with a click its shows the tasks details
-			// with a long click the list item can be delete.
-			lv.setOnItemClickListener(new OnItemClickListener() {
-				
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					
-					//Start the task details activity
-					Intent intent = new Intent(getActivity(), TaskDetails.class);
-					intent.putExtra("taskdetailsid", taskLists.get(position)
-							.getmId());
-					startActivity(intent);
-				}
-			});
-		
-
-			lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-				public boolean onItemLongClick(AdapterView<?> arg0,
-						final View v, int arg2, long arg3) {
-					v.startAnimation(animDelete);
-					new AlertDialog.Builder(getActivity())
-							.setTitle(android.R.string.dialog_alert_title)
-							.setMessage(R.string.delete_task) 
-							.setNegativeButton(android.R.string.cancel,
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-											dialog.dismiss();
-										}
-									})
-							.setPositiveButton(android.R.string.ok,
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-											deleteTask(((TaskListAdapter.ViewHolder) v
-													.getTag()).idCode);
-											v.startAnimation(animTranslate);
-											dialog.dismiss();
-										}
-									}).show();
-					return false;
-
-				}
-			});
-	
-			lv.setOnTouchListener(new OnTouchListener() {
-				
-				public boolean onTouch(View v, MotionEvent event) {
-					boolean event_consumed=false;
-					if(isLayoutVisible()){
-					hideLayoutCompose();
-					event_consumed=true;
-					}
-					return event_consumed;
-				}
-			});
-		}
-		
-		//Create a new task and refresh the adapter
-		protected void createTask(String taskDesc) {
-			Task t = new Task();
-			t.setmText(taskDesc);
-			DatabaseManager.getInstance().addTask(t);
-			taskLists = adapterCustom.notifyCursorChanged();
-		}
-		
-		//Hide the newtask form and show the user data 
-		public static void hideLayoutCompose() {
-			if (isLayoutVisible()){
-				lytCompose.setVisibility(View.GONE);
-				editTask.setText("");
-			}
-			if (!isLayoutVisibleUser())
-				lytUser.setVisibility(View.VISIBLE);
-		}
-		//Hide de User data and show the new task form
-		public static void showLayoutCompose() {
-			if (!isLayoutVisible())
-				lytCompose.setVisibility(View.VISIBLE);
-			if (isLayoutVisibleUser())
-				lytUser.setVisibility(View.GONE);
-		}
-		
-		
-		public static Boolean isLayoutVisible() {
-			return lytCompose.isShown();
-		}
-
-		public static Boolean isLayoutVisibleUser() {
-			return lytUser.isShown();
-		}
-	
-		private void deleteTask(int id) {
-			DatabaseManager.getInstance().deleteTask(id);
-			adapterCustom.notifyCursorChanged();
-		}
-
-	
-
-	}
-
-	/**
-	 * 
-	 */
-	public static class RewardListFragment extends ListFragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-		public static final String ID = "_id";
-		public static final String TEXT_REWARD = "text_reward";
-		public static final String HIDDEN = "hidden";
-		public static final String RATING = "rating";
-		
-		private static EditText editTask;
-		private Button btnSave;
-		private static RatingBar rtbValue;
-		private static CheckBox isSurprise;
-		private static RewardsListAdapter adapterCustom;
-		private static List<Reward> rewardLists;
-		private static LinearLayout lytCompose;
-		private ImageView imgInfo;
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.list_view_reward,
-					container, false);
-			editTask = (EditText) rootView.findViewById(R.id.etxCompReward);
-			btnSave = (Button) rootView.findViewById(R.id.btnCompSaveReward);
-			lytCompose = (LinearLayout) rootView
-					.findViewById(R.id.lytRewardCompose);
-			rtbValue = (RatingBar) rootView.findViewById(R.id.rtbReward);
-			isSurprise = (CheckBox) rootView.findViewById(R.id.chbIsHidden);
-			imgInfo=(ImageView) rootView.findViewById(R.id.imgInfo);
-			initButton(btnSave);
-			return rootView;
-		}
-
-		@Override
-		public void onStart() {
-			super.onStart();
-			setupListView(getListView());
-		}
-		
-		private void initButton(Button btnSave2) {
-			imgInfo.setOnClickListener(new OnClickListener() {				
-				public void onClick(View v) {
-					new AlertDialog.Builder(getActivity())
-					.setTitle(R.string.info_title)
-					.setMessage(R.string.info_text).show(); 
-					
-				}
-			});
-			btnSave2.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					String taskDesc = editTask.getText().toString();
-					int rating = ((Float) rtbValue.getRating()).intValue();
-					Boolean isHidden = isSurprise.isChecked();
-					if (null != taskDesc && taskDesc.length() > 0) {
-						createReward(taskDesc, rating, isHidden);
-						hideLayoutCompose();
-					} else {
-						new AlertDialog.Builder(getActivity())
-								.setTitle(android.R.string.dialog_alert_title)
-								.setMessage(R.string.new_task_error) 
-								.setNegativeButton(android.R.string.ok,
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												dialog.dismiss();
-											}
-										}).show();
-					}
-				}
-			}
-
-			);
-		}
-		
-		private void setupListView(ListView lv) {
-			rewardLists = DatabaseManager.getInstance().getAllRewards();
-
-			String[] col = new String[] { ID, TEXT_REWARD, HIDDEN, RATING };
-			MatrixCursor cursor = new MatrixCursor(col);
-
-			for (Reward rl : rewardLists) {
-
-				cursor.addRow(new Object[] { rl.getmId(), rl.getmRewardText(),
-						rl.ismIsHidden(), rl.getmValue() });
-			}
-			adapterCustom = new RewardsListAdapter(this.getActivity()
-					.getApplicationContext(), cursor);
-
-			lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-				public boolean onItemLongClick(AdapterView<?> arg0,
-						final View v, int arg2, long arg3) {
-					v.startAnimation(animDelete);
-					new AlertDialog.Builder(getActivity())
-							.setTitle(android.R.string.dialog_alert_title)
-							.setMessage(R.string.delete_reward) 
-							.setNegativeButton(android.R.string.cancel,
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-											dialog.dismiss();
-										}
-									})
-							.setPositiveButton(android.R.string.ok,
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-											deleteReward(((RewardsListAdapter.ViewHolder) v
-													.getTag()).id);
-											v.startAnimation(animTranslate);
-											dialog.dismiss();
-										}
-									}).show();
-					return false;
-
-				}
-			});
-			
-			lv.setOnTouchListener(new OnTouchListener() {
-				
-				public boolean onTouch(View v, MotionEvent event) {
-					boolean event_consumed=false;
-					if(isLayoutVisible()){
-					hideLayoutCompose();
-					event_consumed=true;
-					}
-					return event_consumed;
-				}
-			});
-			lv.setAdapter(adapterCustom);
-
-		}
-
-		protected void createReward(String taskDesc, int rating2,
-				Boolean isHidden) {
-			Reward r = new Reward();
-			r.setmRewardText(taskDesc);
-			r.setmValue(rating2);
-			r.setmIsHidden(isHidden);
-			DatabaseManager.getInstance().addReward(r);
-			notifyCursorChanged();
-		}
-
-		public static void notifyCursorChanged() {
-			rewardLists = adapterCustom.notifyCursorChanged();
-		}
-
-		public static void hideLayoutCompose() {
-			if (isLayoutVisible()){
-				lytCompose.setVisibility(View.GONE);
-				//Clear the form
-				editTask.setText("");
-				rtbValue.setRating(0);
-				isSurprise.setChecked(false);
-			}
-		}
-
-		public static void showLayoutCompose() {
-			if (!isLayoutVisible())
-				lytCompose.setVisibility(View.VISIBLE);
-		}
-
-		public static Boolean isLayoutVisible() {
-			return lytCompose.isShown();
-		}
-			
-		private void deleteReward(Integer id) {
-			DatabaseManager.getInstance().deleteReward(id);
-			notifyCursorChanged();
-
 		}
 	}
 

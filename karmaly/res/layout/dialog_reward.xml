@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    style="@android:style/Theme.DeviceDefault.Dialog"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/Bg_bg_lv"
-    android:orientation="vertical"
-    android:padding="2dp" >
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:orientation="vertical"
-        android:padding="4dp" >
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/abs__ab_transparent_light_holo"
+        android:padding="10dp"
+        android:text="@string/congratulations"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/txtDescDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/reward"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/primary_text_light" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/txtDescDialog"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/reward"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/primary_text_light" />
 
-        <TextView
-            android:id="@+id/txtDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/primary_text_light" />
+    <TextView
+        android:id="@+id/txtDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center_horizontal"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/primary_text_light" />
 
-        <RatingBar
-            android:id="@+id/rtbDialog"
-            style="?android:attr/ratingBarStyleIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-    </LinearLayout>
+    <RatingBar
+        android:id="@+id/rtbDialog"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp" 
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/btnOkDialog"
-        style="?android:attr/buttonStyleSmall"
+        style="@android:style/TextAppearance.DeviceDefault.Widget.Button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@android:string/ok" />

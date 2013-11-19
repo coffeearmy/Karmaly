@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="TaskDetails"></activity>
+        <activity android:name="TaskDetailsFragment"></activity>
         <activity android:name="HelpWebview"></activity>
     </application>
 
