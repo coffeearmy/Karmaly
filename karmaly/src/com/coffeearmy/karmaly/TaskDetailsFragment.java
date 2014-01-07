@@ -14,7 +14,7 @@ import java.util.List;
 
 import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.coffeearmy.adapters.DetailListAdapter;
+import com.coffeearmy.adapters.DetailListAdapterArray;
 import com.coffeearmy.bd.DatabaseManager;
 import com.coffeearmy.model.Event;
 import com.coffeearmy.model.Reward;
@@ -46,16 +46,14 @@ import android.widget.Toast;
 
 public class TaskDetailsFragment extends SherlockFragmentActivity {
 
-	private static final String ID = "_id";
-	private static final String DONE = "mDone";
-	private static final String TIMESTAMP = "mTimestamp";
+	
 	private Integer mID;
 	private ListView mListView;
 	private CaldroidFragment caldroidFragment;
-
-	private HashMap<String, List<Event>> hmapStore;
 	private DateFormat dateFormat;
 	private SimpleDateFormat formatter;
+	private List<Event> eventList;
+	private DetailListAdapterArray adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,26 +69,27 @@ public class TaskDetailsFragment extends SherlockFragmentActivity {
 			edtDone.setText(task.getmNumDone() + "");
 			edtNoDone.setText(task.getmNumNotDone() + "");
 		}
+		// Hashmap for store the events
+		
 		// // Create the calendar view
-		// View header = getLayoutInflater().inflate(
-		// R.layout.calendar_header_view, null);
-		//
-		// mListView = (ListView) findViewById(R.id.ltvEvents);
-		// mListView.setEmptyView((ViewStub) findViewById(android.R.id.empty));
-		// // Ad the calendar as the the header of the listview
-		// mListView.addHeaderView(header);
+		View header = getLayoutInflater().inflate(
+		 R.layout.calendar_header_view, null);
+		
+		 mListView = (ListView) findViewById(R.id.ltvEvents);
+	
+		 // Ad the calendar as the the header of the listview
+
+		mListView.addHeaderView(header);
+		
+				 
 		formatter = new SimpleDateFormat("dd MMM yyyy");
-		// setupListView(mListView);
+		
 
 		// Setup caldroid fragment
 		// **** If you want normal CaldroidFragment, use below line ****
 		caldroidFragment = new CaldroidFragment();
-
-		// //////////////////////////////////////////////////////////////////////
-		// **** This is to show customized fragment. If you want customized
-		// version, uncomment below line ****
-		// caldroidFragment = new CaldroidSampleCustomFragment();
-
+		
+			
 		// Setup arguments
 
 		// If Activity is created after rotation
@@ -112,27 +111,36 @@ public class TaskDetailsFragment extends SherlockFragmentActivity {
 			// CaldroidFragment.TUESDAY); // Tuesday
 			caldroidFragment.setArguments(args);
 		}
-
-		setCustomResourceForDates();
-
+		//Caldroid call the onmonthchange at the begining, And the next two lines will be executed there,
+		//getDetails( mID,Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH));
+		//setCustomResourceForDates();
+		eventList= new ArrayList<Event>();
+		// Setup adapter
+		adapter=new DetailListAdapterArray(this, R.layout.row_detail, eventList);
+		//Set listview adapter
+		mListView.setAdapter(adapter);
 		// Attach to the activity
 		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-		t.replace(R.id.calendarView, caldroidFragment);
+		t.add(R.id.calendarView1, caldroidFragment);
 		t.commit();
-		// Setup listener
+		
 		final CaldroidListener listener = new CaldroidListener() {
 
 			@Override
 			public void onSelectDate(Date date, View view) {
-				Toast.makeText(getApplicationContext(), formatter.format(date),
-						Toast.LENGTH_SHORT).show();
-				Toast.makeText(getApplicationContext(),
-						hmapStore.containsKey(formatter.format(date)) + "",
-						Toast.LENGTH_SHORT).show();
-				Toast.makeText(getApplicationContext(),
-						dateFormat.format(date) + "", Toast.LENGTH_SHORT)
-						.show();
-
+				getEvenstperDay(mID, date);
+				adapter.notifyListChanged(eventList);
+				 
+			}
+			
+			@Override
+			public void onChangeMonth(int month, int year) {			
+				super.onChangeMonth(month, year);
+				//Month start in 0
+				getDetails(mID, year, month-1);
+				setCustomResourceForDates();
+				caldroidFragment.refreshView();
+				adapter.notifyListChanged(eventList);
 			}
 		};
 
@@ -140,36 +148,66 @@ public class TaskDetailsFragment extends SherlockFragmentActivity {
 		caldroidFragment.setCaldroidListener(listener);
 	}
 
+	private void getDetails( int taskID, int year, int month) {
+		//Defining the range of dates we want to display in the calendar
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR,0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		Date init = cal.getTime();
+		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Date end= cal.getTime();
+		
+		eventList = DatabaseManager.getInstance().getEventsDate(taskID, init , end);
+		
+		
+	}
+	private void getEvenstperDay(int taskID,Date date){
+		//Defining the range of dates we want to display in the calendar
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.set(Calendar.HOUR,0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			Date init = cal.getTime();
+			cal.set(Calendar.HOUR,23);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			Date end= cal.getTime();
+			
+			eventList = DatabaseManager.getInstance().getEventsDate(taskID, init , end);
+	
+		
+	}
+	
+
 	private void setCustomResourceForDates() {
-		// Get the Events
-		final List<Event> eventLists = DatabaseManager.getInstance()
-				.getAllEvents(mID);
+		
+		
 		// Hashmap with the dates for the paint it in the widget
 		HashMap<Date, Integer> hmap = new HashMap<Date, Integer>();
-		// Hashmap for store the events
-		hmapStore = new HashMap<String, List<Event>>();
+		
 		// DateFormat from the BD, is needed for read the bd format
 		dateFormat = DateFormat.getDateTimeInstance();
 
-		for (Event eventElemen : eventLists) {
+		for (Event eventElemen : eventList) {
 
 			hmap.put(eventElemen.getmTimestamp(), R.color.Green_light);
 
-			// Second formating
-
-			// Calendar cal = new GregorianCalendar();
-			// cal.setTime(eventElemen.getmTimestamp());
-			// String dateAux = formatter.format(cal.getTime());
-			String dataFormated = formatter.format(eventElemen.getmTimestamp());
-			if (hmapStore.containsValue(dataFormated)) { // the hashmap has a
-				// item in this date
-				List<Event> aux = hmapStore.get(dataFormated);
-				aux.add(eventElemen);
-			} else {
-				List<Event> newlist = new ArrayList<Event>();
-				newlist.add(eventElemen);
-				hmapStore.put(dataFormated, newlist);
-			}
+			//Old code for store the events in a hasmap 
+//			String dataFormated = formatter.format(eventElemen.getmTimestamp());
+//			if (hmapStore.containsKey(dataFormated)) { // the hashmap has a
+//				// item in this date
+//				List<Event> aux = hmapStore.get(dataFormated);
+//				aux.add(eventElemen);
+//			} else {
+//				List<Event> newlist = new ArrayList<Event>();
+//				newlist.add(eventElemen);
+//				hmapStore.put(dataFormated, newlist);
+//			}
 		}
 		caldroidFragment.setBackgroundResourceForDates(hmap);
 	}

@@ -1,6 +1,7 @@
 package com.coffeearmy.bd;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import com.coffeearmy.model.Event;
@@ -8,6 +9,7 @@ import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 import com.coffeearmy.model.User;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
 import android.content.Context;
@@ -229,6 +231,23 @@ public class DatabaseManager {
 				Task task = results.get(0);
 				events = getHelper().getEventListDao().queryBuilder().where()
 						.eq("list_id", mID).query();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return events;
+	}
+	public List<Event> getEventsDate(Integer mID,Date begin,Date end) {
+		List<Event> events = null;
+		try {
+			List<Task> results = getHelper().getTaskListDao().queryBuilder()
+					.where().eq("id", mID).query();
+			if (results.size() > 0) {
+
+				QueryBuilder<Event, Integer> eventbuilder = getHelper().getEventListDao().queryBuilder();
+				eventbuilder.where().eq("list_id", mID);
+				eventbuilder.where().between("timestamp", begin, end);
+				events = eventbuilder.query();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

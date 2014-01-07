@@ -42,14 +42,13 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@color/Dark_Bg_bg_lv" >
 
             <LinearLayout
                 android:id="@+id/lytNotDone"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:background="@color/Dark_bg_lv"
@@ -77,7 +76,7 @@
             <LinearLayout
                 android:id="@+id/lytDone"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="@color/Dark_bg_lv"

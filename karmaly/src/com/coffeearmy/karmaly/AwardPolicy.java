@@ -7,9 +7,11 @@ import java.util.Random;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -122,6 +124,11 @@ public class AwardPolicy {
 		// Hidden the title of the dialog, is already in the custom layout
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_reward);
+		//Set height and width
+		DisplayMetrics metrics = mfragment.getResources().getDisplayMetrics();
+		int width = metrics.widthPixels;
+		
+		dialog.getWindow().setLayout(width, LayoutParams.WRAP_CONTENT);
 		TextView textSmall = (TextView) dialog.findViewById(R.id.txtDescDialog);
 
 		if (r.ismIsHidden()) {

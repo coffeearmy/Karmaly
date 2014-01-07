@@ -14,7 +14,7 @@ public class Event {
 	@DatabaseField(columnName = "id", generatedId = true)
 	private int mId;
 
-	@DatabaseField(dataType = DataType.DATE, columnName = "timestamp")
+	@DatabaseField(dataType = DataType.DATE_LONG, columnName = "timestamp")
 	private java.util.Date mTimestamp;
 
 	@DatabaseField(columnName = "is_done")
