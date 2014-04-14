@@ -72,6 +72,10 @@ public class AwardPolicy {
 	}
 
 	/**
+	 * LAST UPDATE:
+	 * FOR now one point when a thing is done.
+	 * 
+	 * 
 	 * When is a Award given ========================= + Task level - When the
 	 * done points are 1/3 more than not done points = 1 reward point - When you
 	 * make a daily done =+5 reward points - The first not done automatically 1
@@ -80,9 +84,9 @@ public class AwardPolicy {
 	 */
 	public void givePoints() {
 		int points = 0;
-		if (u.getmDonePoints() > (u.getmNotDonePoints() * 1.33)) {
+		//if (u.getmDonePoints() > (u.getmNotDonePoints() * 1.33)) {
 			points = +1;
-		}
+		//}
 		// Long aux = u.getmTimestamp().getTime();
 		// Date newDate = new Date(aux);
 		// if() Compare date if was 1 day ago the last time +5 if its in the

@@ -1,21 +1,50 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    
-    <item android:id="@+id/action_compose"
-          android:icon="@android:drawable/ic_menu_add"
-          android:title="@string/action_compose" android:showAsAction="collapseActionView"/>
-    <item android:id="@+id/action_compose2"
-          android:icon="@android:drawable/ic_menu_add"
-          android:title="@string/action_compose_rewards" android:showAsAction="collapseActionView"/>
-    <item android:id="@+id/delete_tasks" android:title="@string/dataoptions" android:showAsAction="never">
+    <item
+        android:id="@+id/add_menu_options"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always"
+        android:title="Add">
         <menu>
-            <item android:id="@+id/delete_all_tasks" android:title="@string/delete_task_preference_title"/>
-            <item android:id="@+id/delete_rewards" android:title="@string/delete_rewards_pref_title"/>
-            <item android:id="@+id/delete_user_data" android:title="@string/delete_user_pref_title"/>
+            <item
+                android:id="@+id/action_compose"
+                
+                android:title="@string/action_compose"/>
+            <item
+                android:id="@+id/action_compose2"
+               
+                android:title="@string/action_compose_rewards"/>
         </menu>
-    </item>
-    
-    <item android:id="@+id/help" android:title="@string/help_pref_title" android:titleCondensed="Help" android:showAsAction="never"></item>
-    
+	</item>
+        <item
+            android:id="@+id/a_More"
+            android:icon="@drawable/ic_action_overflow"
+            android:showAsAction="always"
+            android:title="More">
+            <menu>
+                <item
+                    android:id="@+id/delete_tasks"
+                    android:showAsAction="never"
+                    android:title="@string/dataoptions">
+                    <menu>
+                        <item
+                            android:id="@+id/delete_all_tasks"
+                            android:title="@string/delete_task_preference_title"/>
+                        <item
+                            android:id="@+id/delete_rewards"
+                            android:title="@string/delete_rewards_pref_title"/>
+                        <item
+                            android:id="@+id/delete_user_data"
+                            android:title="@string/delete_user_pref_title"/>
+                    </menu>
+                </item>
+                <item
+                    android:id="@+id/help"
+                    android:showAsAction="never"
+                    android:title="@string/help_pref_title"
+                    android:titleCondensed="Help">
+                </item>
+            </menu>
+        </item>
 
 </menu>

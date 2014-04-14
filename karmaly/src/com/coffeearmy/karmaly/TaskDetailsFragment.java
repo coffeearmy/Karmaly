@@ -1,50 +1,30 @@
 package com.coffeearmy.karmaly;
 
-import hirondelle.date4j.DateTime;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-import com.actionbarsherlock.ActionBarSherlock;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.coffeearmy.adapters.DetailListAdapterArray;
 import com.coffeearmy.bd.DatabaseManager;
 import com.coffeearmy.model.Event;
-import com.coffeearmy.model.Reward;
 import com.coffeearmy.model.Task;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
-import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.database.MatrixCursor;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewStub;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
-
-public class TaskDetailsFragment extends SherlockFragmentActivity {
+public class TaskDetailsFragment extends SherlockFragmentActivity  {
 
 	
 	private Integer mID;
@@ -196,18 +176,6 @@ public class TaskDetailsFragment extends SherlockFragmentActivity {
 		for (Event eventElemen : eventList) {
 
 			hmap.put(eventElemen.getmTimestamp(), R.color.Green_light);
-
-			//Old code for store the events in a hasmap 
-//			String dataFormated = formatter.format(eventElemen.getmTimestamp());
-//			if (hmapStore.containsKey(dataFormated)) { // the hashmap has a
-//				// item in this date
-//				List<Event> aux = hmapStore.get(dataFormated);
-//				aux.add(eventElemen);
-//			} else {
-//				List<Event> newlist = new ArrayList<Event>();
-//				newlist.add(eventElemen);
-//				hmapStore.put(dataFormated, newlist);
-//			}
 		}
 		caldroidFragment.setBackgroundResourceForDates(hmap);
 	}

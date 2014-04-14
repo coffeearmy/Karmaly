@@ -1,7 +1,9 @@
 package com.coffeearmy.adapters;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.coffeearmy.adapters.RewardListAdapterArray.ViewHolder;
 import com.coffeearmy.bd.DatabaseManager;
@@ -26,15 +28,19 @@ public class DetailListAdapterArray extends ArrayAdapter<Event> {
 	private List<Event> objects;
 	private Drawable iconSad;
 	private Drawable iconHappy;
-	
+	public static DateFormat dateFormatH = SimpleDateFormat
+			.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
+	public static DateFormat dateFormatDate = SimpleDateFormat
+		.getDateInstance(DateFormat.LONG, Locale.getDefault());
+
 	protected static class ViewHolder {
 		public TextView date;
 		public ImageView done;
 	}
 
-	public DetailListAdapterArray(Context context, int layoutid	, List<Event> obj) {
-		super(context, layoutid,  obj);
-			
+	public DetailListAdapterArray(Context context, int layoutid, List<Event> obj) {
+		super(context, layoutid, obj);
+
 		mContext = context;
 		layoutResourceId = layoutid;
 		objects = obj;
@@ -56,10 +62,11 @@ public class DetailListAdapterArray extends ArrayAdapter<Event> {
 			LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 			convertView = inflater.inflate(layoutResourceId, parent, false);
 			holder = new ViewHolder();
-			
-			holder.date = (TextView) convertView.findViewById(R.id.txtRewardsList);
+
+			holder.date = (TextView) convertView
+					.findViewById(R.id.txtRewardsList);
 			holder.done = (ImageView) convertView.findViewById(R.id.imgDetail);
-			
+
 			convertView.setTag(holder);
 
 		} else {
@@ -67,28 +74,31 @@ public class DetailListAdapterArray extends ArrayAdapter<Event> {
 		}
 
 		// By default the icon has the happy face
-				if (!objects.get(position).getmIsDone()) {
-					if (iconSad == null)
-						iconSad = mContext.getResources().getDrawable(
-								R.drawable.ic__redface);
-						holder.done.setImageDrawable(iconSad);
-				} else {
-					if (iconHappy == null)
-						iconHappy = mContext.getResources().getDrawable(
-								R.drawable.ic__greenface);
-						holder.done.setImageDrawable(iconHappy);
-				}
-
-				holder.date.setText(objects.get(position).getmTimestamp().toString());
+		if (!objects.get(position).getmIsDone()) {
+			if (iconSad == null)
+				iconSad = mContext.getResources().getDrawable(
+						R.drawable.ic__redface);
+			holder.done.setImageDrawable(iconSad);
+		} else {
+			if (iconHappy == null)
+				iconHappy = mContext.getResources().getDrawable(
+						R.drawable.ic__greenface);
+			holder.done.setImageDrawable(iconHappy);
+		}
+		String date = dateFormatDate.format(objects.get(position)
+				.getmTimestamp());
+		String hour = dateFormatH.format(objects.get(position)
+				.getmTimestamp());
+		holder.date.setText(date+" "+hour);
 
 		return convertView;
 	}
-	
-	public void notifyListChanged(List<Event> ev) {	
+
+	public void notifyListChanged(List<Event> ev) {
 
 		this.objects.clear();
 		this.objects.addAll(ev);
 		this.notifyDataSetChanged();
-		
+
 	}
 }
